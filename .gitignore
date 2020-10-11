@@ -1,0 +1,11 @@
+# Ignore these files in local dev
+**/.vscode
+
+# Remove www directory for now
+www/
+
+# Do not add jenkins plugins binary
+jenkins/plugins
+
+# Remove scratch file
+.scratch
