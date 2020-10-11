@@ -1,31 +1,8 @@
-Jenkinsfile (Declarative Pipeline)
-pipeline {
-    agent {
-        docker {
-            image 'dalexander2israel/nginx-hyfi:v1'
-        }
-    }
-    options {
-        skipStagesAfterUnstable()
-    }
-    stages {
-        stage('Build') { 
-            steps {
-                // 
-            }
-        }
-        stage('Test') { 
-            steps {
-                docker {
-                    image 'cypress/included:5.2.0'
-                }
-                // 
-            }
-        }
-        stage('Deploy') { 
-            steps {
-                // 
-            }
-        }
+node('jenkins-slave') {
+    
+     stage('unit-tests') {
+        sh(script: """
+            docker run --rm alpine /bin/sh -c "echo hello world"
+        """)
     }
 }
