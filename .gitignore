@@ -25,5 +25,6 @@ jenkins/plugins/
 cypress.json
 cypress.docker-compose.yaml
 !jenkins/init_jenkins.sh
-!cypress/
+cypress/
 *.log
+!cypress_tests
