@@ -1,5 +1,5 @@
 # https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/jenkins
-#
+# RUN THIS FIRST
 ---
 
 apiVersion: v1

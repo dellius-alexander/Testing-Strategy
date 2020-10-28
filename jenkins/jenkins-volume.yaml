@@ -1,31 +1,33 @@
 # https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/jenkins
+# RUN "jenkins.rbac.yaml" FIRST
 ---
 
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name:  manual
+  name:  jenkins-storage
   namespace: jenkins
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Delete
 
 ---
 
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: jenkins
+  name: jenkins-pv
   namespace: jenkins
   labels:
     type: local
 spec:
-  storageClassName: manual
+  storageClassName: jenkins-storage
   capacity:
     storage: 10Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/mnt/jenkins-share"
+    path: "/mnt/nfs/jenkins_data"
 
 ---
 
@@ -35,102 +37,11 @@ metadata:
   name: jenkins-claim
   namespace: jenkins
 spec:
-  storageClassName: manual
+  storageClassName: jenkins-storage
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
 
-
-# ---
-
-
-
-
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: jenkins-pv
-#   namespace: jenkins
-#   labels:
-#     purpose: jenkins-share
-# spec:
-#   volumeMode: 
-#   accessModes: 
-#   - ReadWriteMany
-#   capacity:
-#     storage: 10Gi
-#   storageClassName: jenkins-storage
-#   persistentVolumeReclaimPolicy: Retain
-#   hostPath:
-#       path: "/mnt/nfs/jenkins_data"
-#   # PersistentVolume nodeAffinity is required when using 
-#   #   local volumes. It enables the Kubernetes scheduler to 
-#   #   correctly schedule Pods using local volumes to the 
-#   #   correct node. 
-#   nodeAffinity:
-#     required:
-#       nodeSelectorTerms:
-#       - matchExpressions:
-#         - key: kubernetes.io/hostname
-#           operator: In
-#           values: 
-#           - k8s-master k8s-worker-node-1 k8s-worker-node-2
-
-
-# ---
-
-
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: jenkins-pvc
-#   namespace: jenkins
-# spec:
-#   selector:
-#     matchLabels:
-#       purpose: jenkins-share
-#   storageClassName: jenkins-storage
-#   volumeName: jenkins-pv
-#   accessModes:
-#   - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 10Gi
-
-
-# ---
-
-
-# local persistent volume
-#
-# apiVersion: storage.k8s.io/v1
-# kind:  StorageClass
-# metadata:
-#   name: jenkins-pv
-#   namespace: jenkins
-# provisioner: kubernetes.io/no-provisioner
-# volumeBindingMode: WaitForFirstConsumer
-# spec:
-#   accessModes:
-#   - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 10Gi
-
-# ---
-
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: nfs
-# spec:
-#   capacity:
-#     storage: 1Mi
-#   accessModes:
-#     - ReadWriteMany
-#   nfs:
-#     server: nfs-server.default.svc.cluster.local
-#     path: "/mnt/nfs/"
 
