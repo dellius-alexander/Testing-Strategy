@@ -1,5 +1,7 @@
-# https://github.com/dellius-alexander/Testing-Strategy/jenkins/jenkins-all-in-one.yaml
-#
+
+# https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/jenkins
+# RUN THIS FIRST
+
 ---
 
 apiVersion: v1
@@ -51,6 +53,8 @@ rules:
 
 
 # https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/jenkins
+# RUN "jenkins.rbac.yaml" FIRST
+
 ---
 
 apiVersion: storage.k8s.io/v1
@@ -95,6 +99,8 @@ spec:
     requests:
       storage: 10Gi
 
+# https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/jenkins
+# RUN "jenkins.rbac.yaml" FIRST
 
 ---
 
@@ -112,9 +118,7 @@ subjects:
   name: jenkins
   namespace: jenkins
 
-
 ---
-
 
 apiVersion: apps/v1
 kind: Deployment
@@ -145,16 +149,16 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           limits:
-            memory: "10Gi"
-            cpu: "1000m"
+            memory: "1024Mi"
+            cpu: "256m"
           requests:
-            cpu: 750m
-            memory: 1024Mi
+            cpu: 200m
+            memory: 512Mi
         env:
         - name: PROJECT_REPO_MAIN
           value: https://github.com/dellius-alexander/Testing-Strategy.git
         - name: JAVA_OPTS
-          value: -Dhudson.slaves.NodeProvisioner.MARGIN=50 -Dhudson.slaves.NodeProvisioner.MARGIN0=0.85 
+          value: -Xmx2048m -Dhudson.slaves.NodeProvisioner.MARGIN=50 -Dhudson.slaves.NodeProvisioner.MARGIN0=0.85 
         - name: JENKINS_UC
           value: https://updates.jenkins.io/update-center.json
         ports:
@@ -200,4 +204,3 @@ spec:
       targetPort: 8080
   selector:
     app: jenkins
-
