@@ -1,5 +1,7 @@
+
 # https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/jenkins
 # RUN THIS FIRST
+
 ---
 
 apiVersion: v1
@@ -49,8 +51,10 @@ rules:
   resources: ["ingresses"]
   verbs: ["create","delete","get","list","patch","update"]
 
+
 # https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/jenkins
 # RUN "jenkins.rbac.yaml" FIRST
+
 ---
 
 apiVersion: storage.k8s.io/v1
@@ -62,6 +66,7 @@ provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
 
 ---
+
 
 apiVersion: v1
 kind: PersistentVolume
@@ -96,6 +101,23 @@ spec:
 
 # https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/jenkins
 # RUN "jenkins.rbac.yaml" FIRST
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: jenkins
+  namespace: jenkins
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: jenkins
+subjects:
+- kind: ServiceAccount
+  name: jenkins
+  namespace: jenkins
+
 ---
 
 apiVersion: apps/v1

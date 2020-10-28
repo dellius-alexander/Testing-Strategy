@@ -1,5 +1,6 @@
 # https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/jenkins
 # RUN "jenkins.rbac.yaml" FIRST
+
 ---
 
 apiVersion: storage.k8s.io/v1
@@ -43,5 +44,3 @@ spec:
   resources:
     requests:
       storage: 10Gi
-
-
