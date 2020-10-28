@@ -10,7 +10,12 @@
 # Remove these directories
 golang/
 www/
-cypress/
+cypress/fixtures
+cypress/integration/examples
+cypress/integration/package.json
+cypress/integration/sample.spec.js
+cypress/plugins
+cypress/support
 scripts/
 acme/
 certs/
@@ -20,3 +25,4 @@ jenkins/plugins/
 cypress.json
 cypress.docker-compose.yaml
 !jenkins/init_jenkins.sh
+!cypress/
