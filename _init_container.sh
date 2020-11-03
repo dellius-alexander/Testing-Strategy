@@ -45,7 +45,7 @@ if [[ ${__HYFI_CNTR_COUNT__} != 0 ]]; then
 # Docker build ...
 printf "\nBuilding Webserver docker image...\n\n"    
 
-docker build \
+${__DOCKER__} build \
 -t ${__WWW_WEBSERVER_IMAGE__} \
 -f ${__WWW_DOCKERFILE__} .
 wait $!
@@ -56,7 +56,7 @@ exit $?
 
 printf "\nStarting Webserver...\n\n"
 
-docker run -it --rm -d \
+${__DOCKER__} run -it --rm -d \
 -p 32609:80 \
 --cpus="0.5" \
 --name www \
@@ -74,7 +74,7 @@ if [[ ${__CYPRESS_CNTR_COUNT__}  != 0 ]]; then
 # Docker build ...
 printf "\nBuilding Cypress docker image...\n\n"
 
-docker build \
+${__DOCKER__} build \
 -t ${__CYPRESS_INCLUDED_IMAGE__}  \
 -f ${__CYPRESS_DOCKERFILE__} .
 wait $!
@@ -90,7 +90,7 @@ printf "\nDocker Cypress build complete...\n"
 # Docker run ...
 printf "\nStarting Cypress GUI...\n\n"
 
-docker run -it --rm  -d \
+${__DOCKER__} run -it --rm  -d \
 --cap-add=sys_nice \
 --ulimit rtprio=99 \
 --memory=1024m \
