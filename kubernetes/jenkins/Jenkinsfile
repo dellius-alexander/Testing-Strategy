@@ -1,0 +1,46 @@
+
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent {
+        docker { image 'node:14-alpine' }
+    }
+    stages {
+        stage('Test') {
+            steps {
+                sh 'node --version'
+
+            }
+        }
+        stage('Start Tests')
+          steps{
+              sh 'init_container.sh'
+          }
+    }
+}
+
+podTemplate(
+    name: 'test-pod',
+    label: 'test-pod',
+    containers: [
+        containerTemplate(name: 'nginx-hyfi', image: 'dalexander2israel/nginx-hyfi:v1'),
+    ],
+    // volumes: [
+    //     hostPathVolume(mountPath: '/var/run/docker.sock',
+    //     hostPath: '/var/run/docker.sock',
+    // ],
+    {
+        //node = the pod label
+        node('master'){
+            //container = the container label
+            stage('Build'){
+                container('nginx-hyfi'){
+                    // This is where we build our code.
+                }
+            }
+            stage('Build Docker Image'){
+                container(‘docker’){
+                    // This is where we build the Docker image
+                }
+            }
+        }
+    })

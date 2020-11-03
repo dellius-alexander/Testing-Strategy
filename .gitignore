@@ -6,16 +6,14 @@
 
 # Remove scratch file
 .scratch
-
+!cypress/integration/cypress_tests/**
 # Remove these directories
 golang/
 www/
-cypress/fixtures
-cypress/integration/examples
-cypress/integration/package.json
-cypress/integration/sample.spec.js
-cypress/plugins
-cypress/support
+cypress/fixtures/
+cypress/integration/examples/
+cypress/plugins/
+cypress/support/
 scripts/
 acme/
 certs/
@@ -25,6 +23,5 @@ jenkins/plugins/
 cypress.json
 cypress.docker-compose.yaml
 !jenkins/init_jenkins.sh
-cypress/
 *.log
-!cypress_tests
+!**/**/cypress_tests/
