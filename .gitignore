@@ -1,31 +1,31 @@
+# Keep these directories & files
+!cypress/integration/cypress_tests/**
+!jenkins/init_jenkins.sh
+
 # Ignore these files in local dev
 **/.vscode
-
-
-# Do not add jenkins plugins binary
-#**/jenkins/plugins
-
-# Remove scratch file
-.scratch
+*.scratch
+*.ps1
+dev
+**/*copy.bak 
+cypress.json
+cypress.docker-compose.yaml
+*.log
+*-ingress*.yaml
+*-loadbalancer*.yaml
 
 # Remove these directories
+**/jenkins_data/
+**/plugins/
 golang/
 www/
-cypress/fixtures
-cypress/integration/examples
-cypress/integration/package.json
-cypress/integration/sample.spec.js
-cypress/plugins
-cypress/support
+kubernetes/jenkins/plugins/ 
+cypress/fixtures/
+cypress/integration/examples/
+cypress/plugins/
+cypress/support/
 scripts/
 acme/
 certs/
-*.ps1
-dev
 jenkins/plugins/
-cypress.json
-cypress.docker-compose.yaml
-!jenkins/init_jenkins.sh
-cypress/
-*.log
-!cypress_tests
+!**/**/cypress_tests/
