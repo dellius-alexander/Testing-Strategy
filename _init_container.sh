@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+# escape=\ (backslash)
 ###############################################################################
 ###############################################################################
 RED='\033[0;31m' # Red
 NC='\033[0m' # No Color CAP
-__PROJECT_ENV__=$(find ~+ -type f -name 'project.env')
+__PROJECT_ENV__=$(find ~+ -type f -name 'project.env');
 ###############################################################################
 ###############################################################################
 ###############################################################################
@@ -13,8 +14,8 @@ function __get_env__(){
 # Checking if environments have loaded
 #source $(find ~+ -type f -name 'project.env')
 if [[ -f ${1} ]]; then
-source ${1}
-wait $!
+source ${1};
+wait $!;
 fi
 printf "\n"
 echo  "Cypress directory: ${__TEST_DIR__}"
@@ -45,9 +46,7 @@ if [[ ${__HYFI_CNTR_COUNT__} != 0 ]]; then
 # Docker build ...
 printf "\nBuilding Webserver docker image...\n\n"    
 
-${__DOCKER__} build \
--t ${__WWW_WEBSERVER_IMAGE__} \
--f ${__WWW_DOCKERFILE__} .
+docker build -t ${__WWW_WEBSERVER_IMAGE__} -f ${__WWW_DOCKERFILE__} .
 wait $!
 
 [[  $? != 0 ]] && \
@@ -56,11 +55,8 @@ exit $?
 
 printf "\nStarting Webserver...\n\n"
 
-${__DOCKER__} run -it --rm -d \
--p 32609:80 \
---cpus="0.5" \
---name www \
-${__WWW_WEBSERVER_IMAGE__}
+docker run -it --rm -d -p 32609:80 --cpus="0.5" --name www ${__WWW_WEBSERVER_IMAGE__}
+
 wait $!
 
 else
@@ -74,9 +70,7 @@ if [[ ${__CYPRESS_CNTR_COUNT__}  != 0 ]]; then
 # Docker build ...
 printf "\nBuilding Cypress docker image...\n\n"
 
-${__DOCKER__} build \
--t ${__CYPRESS_INCLUDED_IMAGE__}  \
--f ${__CYPRESS_DOCKERFILE__} .
+docker build -t ${__CYPRESS_INCLUDED_IMAGE__}  -f ${__CYPRESS_DOCKERFILE__} .
 wait $!
 
 [[  $? != 0  ]] && \
@@ -90,18 +84,7 @@ printf "\nDocker Cypress build complete...\n"
 # Docker run ...
 printf "\nStarting Cypress GUI...\n\n"
 
-${__DOCKER__} run -it --rm  -d \
---cap-add=sys_nice \
---ulimit rtprio=99 \
---memory=1024m \
--v /tmp/.X11-unix:/tmp/.X11-unix \
--e ${__DISPLAY__} \
--e DEBUG='cypress:* cypress run' \
--w /e2e \
---entrypoint=cypress \
---name=cypress \
-${__CYPRESS_INCLUDED_IMAGE__}  run --project . \
---config baseUrl=http://host.docker.internal:32609
+docker run -it --rm  -d --cap-add=sys_nice --ulimit rtprio=99 --memory=1024m -v /tmp/.X11-unix:/tmp/.X11-unix -e ${__DISPLAY__} -e DEBUG='cypress:* cypress run' -w /e2e --entrypoint=cypress --name=cypress ${__CYPRESS_INCLUDED_IMAGE__}  run --project . --config baseUrl=http://host.docker.internal:32609
 wait $!
 
 # setup debug logging
