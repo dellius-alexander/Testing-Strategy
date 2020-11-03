@@ -45,7 +45,7 @@ if [[ ${__HYFI_CNTR_COUNT__} != 0 ]]; then
 printf "\nBuilding Webserver docker image...\n\n"    
 
 docker build \
--t dalexander2israel/www_hyfi:v3 \
+-t ${__WWW_WEBSERVER_IMAGE__} \
 -f ${__WWW_DOCKERFILE__} .
 wait $!
 
@@ -59,7 +59,7 @@ docker run -it --rm -d \
 -p 32609:80 \
 --cpus="0.5" \
 --name www \
-dalexander2israel/www_hyfi:v3
+${__WWW_WEBSERVER_IMAGE__}
 wait $!
 
 else
@@ -74,7 +74,7 @@ if [[ ${__CYPRESS_CNTR_COUNT__}  != 0 ]]; then
 printf "\nBuilding Cypress docker image...\n\n"
 
 docker build \
--t dalexander2israel/cypress/included:v1 \
+-t ${__CYPRESS_INCLUDED_IMAGE__}  \
 -f ${__CYPRESS_DOCKERFILE__} .
 wait $!
 
@@ -95,13 +95,11 @@ docker run -it --rm  -d \
 --memory=1024m \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 -e ${__DISPLAY__} \
--v ${PWD}/qa:/e2e \
--v ${PWD}/node_modules:./node_modules/.bin \
 -e DEBUG='cypress:* cypress run' \
 -w /e2e \
 --entrypoint=cypress \
 --name=cypress \
-dalexander2israel/cypress/included:v1  run --project . \
+${__CYPRESS_INCLUDED_IMAGE__}  run --project . \
 --config baseUrl=http://host.docker.internal:32609
 
 wait $!

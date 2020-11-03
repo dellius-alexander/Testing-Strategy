@@ -47,10 +47,10 @@ spec:
             memory: 512Mi
         # securityContext:
         #   privileged: true
-        # volumeMounts:
-        # - name: hyfivolume 
-        #   mountPath: /usr/share/nginx/html
-        #   readOnly: false
+        volumeMounts:
+        - name: hyfivolume 
+          mountPath: /usr/share/nginx/html
+          readOnly: false
       volumes:
       - name: hyfivolume 
         emptyDir: {}
