@@ -10,6 +10,7 @@ metadata:
   namespace: jenkins
   labels:
     app: jenkins
+    tier: frontend
 spec:
   replicas: 1
   selector:
@@ -24,6 +25,7 @@ spec:
     metadata:
       labels:
         app: jenkins
+        tier: frontend
     spec:
       serviceAccountName: jenkins
       containers:
@@ -86,7 +88,7 @@ metadata:
 spec:
   scaleTargetRef:
     kind: ReplicaSet
-    name: jenkins-deployment
+    name: frontend
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 50
