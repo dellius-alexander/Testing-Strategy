@@ -63,7 +63,16 @@ printf "Sorry Docker build failed...\n$?\n" && \
 exit $?
 #
 printf "\nStarting Webserver...\n\n"
+
+# Delete Hyfi Deployment if it exists
+[ $(kubectl get -n hyfi deployments.apps nginx-hyfi-deployment &>/dev/null | grep -c hyfi) != 0 ] \
+&& ${__KUBECTL__} delete -f $(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
+|| find . -type f -iname 'hyfi-deployment.yaml' 2>/dev/null)
 #
+wait $!
+#
+# Launch new instance of Hyfi Deployment
+printf "\n\nDeploying webservice for testing......\n"
 ${__KUBECTL__} apply -f $(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
 || find . -type f -iname 'hyfi-deployment.yaml' 2>/dev/null)
 #
