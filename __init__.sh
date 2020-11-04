@@ -3,11 +3,9 @@
 ################################################################
 RED='\033[0;31m' # Red
 NC='\033[0m' # No Color CAP
+source $(find . -type f -iname 'project.env') 2>/dev/null
 __KUBECTL__=$(command -v kubectl)
 __DOCKER__=$(command -v docker)
-export __HYFI_DEPLOYMENT__=$(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
-|| find . -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null) 2>/dev/null
-printf "\n\n${__HYFI_DEPLOYMENT__}\n\n"
 ################################################################
 ################################################################
 function __remove_repo__(){
@@ -26,6 +24,14 @@ fi
 ################################################################
 function __remove_cntr__(){
 ################################################################
+[[ $(find . -type d -iname 'Testing-Strategy' | grep -c Testing-Strategy) == 0 ]] \
+&& git clone ${PROJECT_REPO_MAIN} && wait $!
+#
+source $(find . -type f -iname 'project.env') 2>/dev/null && wait $!
+#
+printf "\n\n${__HYFI_DEPLOYMENT__}\n\n"
+#
+#
 printf "\n\nRemoving running containers or Deployments......\n\n"
 ${__DOCKER__} ps -a | grep www 2>/dev/null
 wait $! && echo
@@ -50,10 +56,21 @@ fi
 if [  $(${__KUBECTL__} get deployments.apps -A | grep -c hyfi ) != 0  ]; then
 #
 printf "\nDeleting: ${1}\n\n"
-${__KUBECTL__} delete -f ${__HYFI_DEPLOYMENT__} 2>/dev/null && wait $!  && sleep 3 \
-&& printf "\n\n"
+while [ $(${__KUBECTL__} get deployments.apps -A | grep -c hyfi ) != 0 ]; do
+printf "\n\nWaiting for old deployment to completely shutdown......\n\n"
+${__KUBECTL__} get deployments.apps -A | grep hyfi 2>/dev/null
+printf "\n\n\n\n"
+${__KUBECTL__} delete -f ${__HYFI_DEPLOYMENT__} 2>/dev/null && wait $! \
+&& printf "\n\n\n\n"
 #
+echo & ${__KUBECTL__} delete -f $(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null) 2>/dev/null \
+&& wait $! && printf "\n\n\n\n"
+echo & ${__KUBECTL__} delete -f $(find . -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null) 2>/dev/null \
+&& wait $! && printf "\n\n\n\n"
+${__KUBECTL__} kubectl delete deployments.apps -n hyfi nginx-hyfi-deployment 2>/dev/null && wait $! && printf "\n\n\n\n"
 wait $!
+sleep 2
+done
 #
 fi
 #
@@ -80,6 +97,7 @@ printf "\n\nEnvironment cleaned up......\n\n"
 ################################################################
 #                 ... START OF BUILD STEPS ...
 ################################################################
+printf "\n\n"
 __remove_repo__
 #
 wait $!
