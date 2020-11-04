@@ -9,6 +9,7 @@
 *.ps1
 dev
 **/*copy.bak
+**/*env.bak
 cypress.docker-compose.yaml
 *.log
 *-ingress*.yaml
