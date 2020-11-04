@@ -9,7 +9,7 @@ RUN echo "Successfully updated and upgrade"
 # Download from Repo...(git)
 #
 RUN git clone https://github.com/dellius-alexander/responsive_web_design.git && wait $!
-RUN cp -r responsive_web_design/docs/*   /usr/share/nginx/html/ \
+RUN cp -r responsive_web_design/docs/**   /usr/share/nginx/html/ \
 && wait $!
 RUN printf "\n\nContents of: /usr/share/nginx/html/\n\n" \
 && ls -lia /usr/share/nginx/html/
