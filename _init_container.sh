@@ -53,7 +53,7 @@ if [[ ${__HYFI_CNTR_COUNT__} == 0 ]]; then
 #
 printf "\nBuilding Webserver docker image...\n\n"
 #
-${__DOCKER__} build -t ${__WWW_WEBSERVER_IMAGE__} -f ${__WWW_DOCKERFILE__} .
+${__DOCKER__} build -t ${__WWW_WEBSERVER_IMAGE__} -f ${__WWW_DOCKERFILE__} . 
 #
 wait $!
 #
@@ -62,12 +62,18 @@ wait $!
 printf "Sorry Docker build failed...\n$?\n" && \
 exit $?
 #
-printf "\nStarting Webserver...\n\n"
+wait $!
 #
 # Delete Hyfi Deployment if it exists
 [ $(kubectl get -n hyfi deployments.apps nginx-hyfi-deployment &>/dev/null | grep -c hyfi) != 0 ] \
 && ${__KUBECTL__} delete -f $(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
 || find . -type f -iname 'hyfi-deployment.yaml' 2>/dev/null)
+#
+wait $!
+#
+printf "\nDeploying Webserver...\n\n"
+#
+${__DOCKER__} push ${__WWW_WEBSERVER_IMAGE__}
 #
 wait $!
 #
