@@ -34,6 +34,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
+          protocol: TCP
         lifecycle:
           preStop: # Gracefully shutdown nginx
             exec:              
