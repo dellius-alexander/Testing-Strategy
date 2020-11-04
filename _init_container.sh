@@ -65,8 +65,8 @@ exit $?
 wait $!
 #
 # Delete Hyfi Deployment if it exists
-[ $(kubectl get -n hyfi deployment 2>/dev/null | grep -c nginx-hyfi) != 0 ] \
-&& kubectl delete -f $(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
+[ $(${__KUBECTL__} get -n hyfi deployment 2>/dev/null | grep -c nginx-hyfi) != 0 ] \
+&& ${__KUBECTL__} delete -f $(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
 || find . -type f -iname 'hyfi-deployment.yaml' 2>/dev/null)
 #
 printf "\nPushing new image to repo...\n\n"
@@ -76,7 +76,7 @@ ${__DOCKER__} push ${__WWW_WEBSERVER_IMAGE__}
 wait $!
 #
 # Launch new instance of Hyfi Deployment
-printf "\n\nDeploying webservice for testing......\n"
+printf "\n\nDeploying webservice for testing......\n\n"
 ${__KUBECTL__} apply -f $(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
 || find . -type f -iname 'hyfi-deployment.yaml' 2>/dev/null)
 #
