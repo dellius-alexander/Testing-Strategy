@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: nginx-hyfi
-        image: dalexander2israel/nginx-hyfi:v1
+        image: dalexander2israel/www_hyfi:v3
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80

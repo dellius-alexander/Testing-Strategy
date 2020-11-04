@@ -27,6 +27,8 @@ echo  "Hyfi Container Count: ${__HYFI_CNTR_COUNT__}"
 echo  "Cypress Container Count: ${__CYPRESS_CNTR_COUNT__}"
 echo  "Cypress sample file: ${__CYPRESS_SAMPLE__}"
 echo  "Docker binary location: ${__DOCKER__}"
+echo  "Hyfi Deployment Count: ${__HYFI_DEPLOYMENT__CNT__}"
+echo  "Hyfi Deployment Location: ${__HYFI_DEPLOYMENT__}"
 printf "\n"
 #
 wait $!
@@ -62,7 +64,7 @@ exit $?
 #
 printf "\nStarting Webserver...\n\n"
 #
-${__KUBECTL__} apply -f $(find "$JENKINS_HOME" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
+${__KUBECTL__} apply -f $(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
 || find . -type f -iname 'hyfi-deployment.yaml' 2>/dev/null)
 #
 #${__DOCKER__} run -it --rm -d -p 32609:80 --cpus="0.5" --name www ${__WWW_WEBSERVER_IMAGE__}
