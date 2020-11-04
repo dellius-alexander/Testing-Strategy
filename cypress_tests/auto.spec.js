@@ -1,7 +1,7 @@
 //changes view
 context('Viewport', () => {
     beforeEach(() => {
-      cy.visit('https://dellius-alexander.github.io/responsive_web_design/index.html')
+      cy.visit('index.html')
     })
   
         it('cy.viewport() - set the viewport size and dimension', () => {

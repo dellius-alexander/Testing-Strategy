@@ -1,3 +1,4 @@
 {
-    "pageLoadTimeout": 90000
+    "pageLoadTimeout": 90000,
+    "baseUrl": "jenkins.dellius.app:32608/"
 }
