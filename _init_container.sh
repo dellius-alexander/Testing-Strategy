@@ -69,7 +69,7 @@ wait $!
 && kubectl delete -f $(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
 || find . -type f -iname 'hyfi-deployment.yaml' 2>/dev/null)
 #
-printf "\nDeploying Webserver...\n\n"
+printf "\nPushing new image to repo...\n\n"
 #
 ${__DOCKER__} push ${__WWW_WEBSERVER_IMAGE__} 
 #
@@ -108,7 +108,7 @@ wait $!
 printf "\nDocker Cypress build complete...\n"
 #
 # Docker run ...
-printf "\nStarting Cypress GUI...\n\n"
+printf "\nStarting Cypress Headless Mode......\n\n"
 #
 ${__DOCKER__} run -it --rm  -d --cap-add=sys_nice \
 --ulimit rtprio=99 \
@@ -132,6 +132,21 @@ sleep 1
 else
 #
 printf "\nCypress is up and running ......\n\n\n"
+# Docker run ...
+printf "\nStarting Cypress Headless Mode......\n\n"
+#
+${__DOCKER__} run -it --rm  -d --cap-add=sys_nice \
+--ulimit rtprio=99 \
+--memory=1024m \
+-v ${pwd}/cypress_tests/:/home/cypress/e2e/cypress/integration/cypress_tests/ \
+-v ${pwd}/video:/home/cypress/e2e/cypress/videos/ \
+-e DEBUG='cypress:run' \
+-e PAGELOADTIMEOUT=60000 \
+-w /home/cypress/e2e --entrypoint=cypress \
+--name=cypress ${__CYPRESS_INCLUDED_IMAGE__}  \
+run --project . --headless --browser firefox --spec '/home/cypress/e2e/cypress/integration/*'
+#
+wait $!
 #
 sleep 1
 #
