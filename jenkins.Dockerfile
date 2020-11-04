@@ -1,5 +1,5 @@
 # escape=\ (backslash)
-### <REQUIRED SCRIPT>: kubelet.sh
+### <REQUIRED SCRIPT>: __kubelet__.sh
 ################################################################
 ################################################################
 FROM jenkins/jenkins:lts-centos
@@ -19,9 +19,9 @@ RUN  yum-config-manager \
     https://download.docker.com/linux/centos/docker-ce.repo
 RUN yum install -y docker-ce docker-ce-cli containerd.io
 # Kubernetes Setup Add yum repository
-COPY ./kubectl.sh .
-RUN chmod +x ./kubectl.sh
-RUN ./kubectl.sh
+COPY ./__kubectl__.sh .
+RUN chmod +x ./__kubectl__.sh
+RUN ./__kubectl__.sh
 RUN yum install -y kubectl
 RUN usermod -u ${HOST_UID} jenkins
 RUN usermod -aG docker jenkins && newgrp docker
