@@ -62,7 +62,9 @@ exit $?
 #
 printf "\nStarting Webserver...\n\n"
 #
-${__DOCKER__} run -it --rm -d -p 32609:80 --cpus="0.5" --name www ${__WWW_WEBSERVER_IMAGE__}
+kubectl apply -f --kubeconfig=${KUBECONFIG} $(find ~+ -type f -name 'hyfi-deployment.yaml')
+#
+#${__DOCKER__} run -it --rm -d -p 32609:80 --cpus="0.5" --name www ${__WWW_WEBSERVER_IMAGE__}
 #
 wait $!
 #
