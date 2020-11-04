@@ -30,6 +30,7 @@ spec:
     spec:
       containers:
       - name: nginx-hyfi
+        workingDir: /usr/share/nginx/html
         image: dalexander2israel/www_hyfi:v3
         imagePullPolicy: Always
         ports:
