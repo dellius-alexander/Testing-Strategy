@@ -46,7 +46,7 @@ echo  "Hyfi Container Count: ${__HYFI_CNTR_COUNT__}"
 echo  "Cypress Container Count: ${__CYPRESS_CNTR_COUNT__}"
 #
 # Starting webserver ...
-
+[[ ${__HYFI_CNTR_COUNT__} != 0 ]] && ${__DOCKER__} rm $(docker ps -a | grep )
 if [[ ${__HYFI_CNTR_COUNT__} == 0 ]]; then
 
 # Docker build ...
@@ -65,15 +65,13 @@ exit $?
 wait $!
 #
 # Delete Hyfi Deployment if it exists
-[ $(kubectl get -n hyfi deployments.apps nginx-hyfi-deployment &>/dev/null | grep -c hyfi) != 0 ] \
-&& ${__KUBECTL__} delete -f $(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
+[ $(kubectl get -n hyfi deployment 2>/dev/null | grep -c nginx-hyfi) != 0 ] \
+&& kubectl delete -f $(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
 || find . -type f -iname 'hyfi-deployment.yaml' 2>/dev/null)
-#
-wait $!
 #
 printf "\nDeploying Webserver...\n\n"
 #
-${__DOCKER__} push ${__WWW_WEBSERVER_IMAGE__}
+${__DOCKER__} push ${__WWW_WEBSERVER_IMAGE__} 
 #
 wait $!
 #
