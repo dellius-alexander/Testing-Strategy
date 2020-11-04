@@ -3,12 +3,12 @@
 !jenkins/init_jenkins.sh
 
 # Ignore these files in local dev
+**/docker
 **/.vscode
 *.scratch
 *.ps1
 dev
-**/*copy.bak 
-cypress.json
+**/*copy.bak
 cypress.docker-compose.yaml
 *.log
 *-ingress*.yaml
