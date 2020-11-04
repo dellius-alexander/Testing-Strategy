@@ -62,7 +62,8 @@ exit $?
 #
 printf "\nStarting Webserver...\n\n"
 #
-${__KUBECTL__} apply -f --kubeconfig=${__KUBECONFIG__} $(find . -type f -iname 'hyfi-deployment.yaml' || find "$JENKINS_HOME" -type f -iname 'hyfi-deployment.yaml' -print)
+${__KUBECTL__} apply -f $(find "$JENKINS_HOME" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
+|| find . -type f -iname 'hyfi-deployment.yaml' 2>/dev/null)
 #
 #${__DOCKER__} run -it --rm -d -p 32609:80 --cpus="0.5" --name www ${__WWW_WEBSERVER_IMAGE__}
 #
