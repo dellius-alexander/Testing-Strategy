@@ -46,6 +46,8 @@ spec:
           value: -Xmx2048m -Dhudson.slaves.NodeProvisioner.MARGIN=50 -Dhudson.slaves.NodeProvisioner.MARGIN0=0.85 
         - name: JENKINS_UC
           value: https://updates.jenkins.io/update-center.json
+        - name: __KUBECONFIG__
+          value: /var/jenkins_home/secrets/kubeconfig
         ports:
         - containerPort: 8080
           protocol: TCP
@@ -70,6 +72,25 @@ spec:
       - name: docker-sock-volume
         hostPath:
           path: /var/run/docker.sock
+
+
+---
+
+
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: jenkins-scaler
+  namespace: jenkins
+spec:
+  scaleTargetRef:
+    kind: ReplicaSet
+    name: jenkins-deployment
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 50
+
 
 
 ---
