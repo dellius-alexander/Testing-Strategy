@@ -78,28 +78,28 @@ RUN printf "debian version:  $(cat /etc/debian_version)\n"
 RUN printf "user:            $(whoami)\n"
 RUN printf "chrome:          $(google-chrome --version)\n"
 RUN printf "firefox:         $(firefox --version)\n"
-ENV __PACKAGE_JSON__=${pwd}/package.json
-ENV __CYPRESS_JSON__=${pwd}/cypress.json
+ENV __PACKAGE_JSON__=/home/cypress/e2e/package.json
+ENV __CYPRESS_JSON__=/home/cypress/e2e/cypress.json
 RUN printf "\n${__PACKAGE_JSON__}\n\n${__CYPRESS_JSON__}\n"
 RUN printf "\nPachage.json file: \n\n${__PACKAGE_JSON__}\n" \
 &&  printf "\nCypress.json file: \n\n${__CYPRESS_JSON__}\n"
 COPY [ "package.json", "." ]
-RUN printf "\n\npackage.json contents: $PWD \n\n" \
+RUN printf "\n\nContents of: ${pwd} \n\n" \
 && pwd && ls -lia && sleep 2 \
 && cat package.json
 COPY [ "cypress.json", "/home/cypress/e2e/" ]
-RUN printf "\n\ncypress.json contents: /home/cypress/e2e \n\n" \
+RUN printf "\n\nContents of: /home/cypress/e2e \n\n" \
 && ls -lia /home/cypress/e2e \
-&& sleep 2 \
-&& cat /home/cypress/e2e/cypress.json
-RUN printf "\nCheck file transfer: /home/cypress/e2e/cypress/ \n\n" \
-&& ls -lia /home/cypress/e2e/cypress/
+&& sleep 2 && printf "\n\ncypress.json file:\n\n" \
+&& cat /home/cypress/e2e/cypress.json \
+&& printf "\n\n"
 RUN printf "\n\nCypress Tests Directory: ${__CYPRESS_TESTS__}\n\n"
 COPY [ "./cypress_tests/", "${__CYPRESS_TESTS__}" ]
-RUN printf "\n\nVerifying copied files inside: ${__CYPRESS_TESTS__} \n\n" \
+RUN printf "\n\nContents of: ${__CYPRESS_TESTS__} \n\n" \
 && ls -lia ${__CYPRESS_TESTS__} && sleep 2
 RUN env
-RUN ls -lia /** && pwd && ls -lia ${pwd}
+RUN printf "\nCurrent Directory: \n${pwd}\n\nObjects in current directory: \n\n" \
+&& ls -lia ${pwd} && printf "\n\nRoot directory: \n\n" && ls -lia /
 #
 # cypress run command
 CMD [ "cypress", "run" ]
