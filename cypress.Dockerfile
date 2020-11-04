@@ -71,7 +71,6 @@ ENV NODE_OPTIONS='--max-http-header-size=1048576 --http-parser=legacy'
 
 # set debugging for dev purposes *************
 ENV DEBUG="cypress:* cypress run" 
-
 RUN printf "node version:    $(node -v)\n"
 RUN printf "npm version:     $(npm -v)\n"
 RUN printf "yarn version:    $(yarn -v)\n"
@@ -84,24 +83,23 @@ ENV __CYPRESS_JSON__=${pwd}/cypress.json
 RUN printf "\n${__PACKAGE_JSON__}\n\n${__CYPRESS_JSON__}\n"
 RUN printf "\nPachage.json file: \n\n${__PACKAGE_JSON__}\n" \
 &&  printf "\nCypress.json file: \n\n${__CYPRESS_JSON__}\n"
-COPY [ "./package.json", "." ]
+COPY [ "package.json", "." ]
 RUN printf "\n\npackage.json contents: $PWD \n\n" \
 && pwd && ls -lia && sleep 2 \
 && cat package.json
-COPY [ "./cypress.json", "/home/cypress/e2e" ]
+COPY [ "cypress.json", "/home/cypress/e2e/" ]
 RUN printf "\n\ncypress.json contents: /home/cypress/e2e \n\n" \
 && ls -lia /home/cypress/e2e \
 && sleep 2 \
 && cat /home/cypress/e2e/cypress.json
-RUN printf "\nCheck file transfer: /home/cypress/e2e/cypress/\n\n" \
+RUN printf "\nCheck file transfer: /home/cypress/e2e/cypress/ \n\n" \
 && ls -lia /home/cypress/e2e/cypress/
 RUN printf "\n\nCypress Tests Directory: ${__CYPRESS_TESTS__}\n\n"
 COPY [ "./cypress_tests/", "${__CYPRESS_TESTS__}" ]
-RUN printf "\n\nVerifying copied files inside: cypress_tests \n\n" \
-&& ls -lia ${__CYPRESS_TESTS__} && sleep 2
 RUN printf "\n\nVerifying copied files inside: ${__CYPRESS_TESTS__} \n\n" \
-&& ls -lia ${__CYPRESS_TESTS__}
-
+&& ls -lia ${__CYPRESS_TESTS__} && sleep 2
+RUN env
+RUN ls -lia /** && pwd && ls -lia ${pwd}
 #
 # cypress run command
 CMD [ "cypress", "run" ]

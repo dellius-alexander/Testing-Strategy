@@ -15,6 +15,7 @@ cypress.docker-compose.yaml
 *-loadbalancer*.yaml
 
 # Remove these directories
+**/video
 **/jenkins_data/
 **/plugins/
 golang/

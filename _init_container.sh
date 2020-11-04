@@ -95,11 +95,12 @@ printf "\nStarting Cypress GUI...\n\n"
 ${__DOCKER__} run -it --rm  -d --cap-add=sys_nice \
 --ulimit rtprio=99 \
 --memory=1024m \
--v ${PWD}:/home/cypress/e2e \
--e DEBUG='cypress:*' \
+-v ${pwd}/cypress_tests/:/home/cypress/e2e/cypress/integration/cypress_tests/ \
+-v ${pwd}/video:/home/cypress/e2e/cypress/videos/ \
+-e DEBUG='cypress:run' \
 -w /home/cypress/e2e --entrypoint=cypress \
 --name=cypress ${__CYPRESS_INCLUDED_IMAGE__}  \
-run --project . --headless --browser firefox --spec './cypress/integration/cypress_tests/auto.spec.js'
+run --project . --headless --browser firefox --spec '/home/cypress/e2e/cypress/integration/*'
 #
 wait $!
 #
@@ -110,12 +111,12 @@ sleep 1
 #
 else
 #
-printf "\nCypress is up and running ...\n"
+printf "\nCypress is up and running ......\n\n\n"
 #
 sleep 1
 #
 fi
-docker commit ${__WWW_WEBSERVER_IMAGE__}
+#
 exit 0
 #touch init_container.lock
 #
@@ -125,7 +126,7 @@ exit 0
 ###############################################################################
 # # Docker run ...
 # printf "\nStarting Cypress GUI...\n\n"
-
+#
 # docker run -it --rm  -d -P \
 # --cap-add=sys_nice \
 # --ulimit rtprio=99 \
