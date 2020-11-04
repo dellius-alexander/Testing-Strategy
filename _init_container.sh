@@ -98,9 +98,11 @@ ${__DOCKER__} run -it --rm  -d --cap-add=sys_nice \
 -v ${pwd}/cypress_tests/:/home/cypress/e2e/cypress/integration/cypress_tests/ \
 -v ${pwd}/video:/home/cypress/e2e/cypress/videos/ \
 -e DEBUG='cypress:run' \
+-e PAGELOADTIMEOUT=60000 \
 -w /home/cypress/e2e --entrypoint=cypress \
 --name=cypress ${__CYPRESS_INCLUDED_IMAGE__}  \
 run --project . --headless --browser firefox --spec '/home/cypress/e2e/cypress/integration/*'
+
 #
 wait $!
 #
