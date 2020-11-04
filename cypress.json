@@ -1,4 +1,4 @@
 {
     "pageLoadTimeout": 90000,
-    "baseUrl": "10.0.0.129:32608/"
+    "baseUrl": "http://10.0.0.129:32608/"
 }
