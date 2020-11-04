@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
 ################################################################
 ################################################################
+RED='\033[0;31m' # Red
+NC='\033[0m' # No Color CAP
 __KUBECTL__=$(command -v kubectl)
 __DOCKER__=$(command -v docker)
-__HYFI_DEPLOYMENT__=$(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
+export __HYFI_DEPLOYMENT__=$(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
 || find . -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null) 2>/dev/null
+printf "\n\n${__HYFI_DEPLOYMENT__}\n\n"
 ################################################################
 ################################################################
 function __remove_repo__(){
 ################################################################
 if [[ $(ls -lia | grep -c Testing-Strategy)  != 0 ]]; then
-	rm -rf  Testing-Strategy
+        rm -rf  Testing-Strategy
     #
     wait $!
     #
@@ -31,25 +34,45 @@ wait $! && echo
 ${__KUBECTL__} get deployments.apps -A | grep hyfi 2>/dev/null
 wait $! && echo
 # Remove cypress containers
+#
 if [  $(${__DOCKER__} ps -a | grep -c cypress) != 0  ]; then
-  ${__DOCKER__} kill $(${__DOCKER__} ps -a | grep cypress | gawk {'print $1'} 2>/dev/null) 2>/dev/null
-  wait $! && echo
-  ${__DOCKER__} rm $(${__DOCKER__} ps -a | grep cypress | gawk {'print $1'} 2>/dev/null)  2>/dev/null
-  wait $! && echo
+#
+${__DOCKER__} kill $(${__DOCKER__} ps -a | grep cypress | gawk {'print $1'} 2>/dev/null) 2>/dev/null
+wait $! && echo
+${__DOCKER__} rm $(${__DOCKER__} ps -a | grep cypress | gawk {'print $1'} 2>/dev/null)  2>/dev/null \
+&& printf "\n\n${RED}$1${NC}\n\n"
+wait $! && echo
+#
 fi
-# Remove www containers
-if [  $(${__DOCKER__} ps -a | grep -c www) != 0  ]; then
-  ${__DOCKER__} kill $(${__DOCKER__} ps -a | grep www | gawk {'print $1'} 2>/dev/null) 2>/dev/null
-  wait $! && echo
-  ${__DOCKER__} rm $(${__DOCKER__} ps -a | grep www | gawk {'print $1'} 2>/dev/null)  2>/dev/null
-  wait $! && echo
-fi
+#
 # Remove deployments
+#
 if [  $(${__KUBECTL__} get deployments.apps -A | grep -c hyfi ) != 0  ]; then
-	${__KUBECTL__} delete -f ${__HYFI_DEPLOYMENT__} 2>/dev/null 
-    wait $! && echo
+#
+printf "\nDeleting: ${1}\n\n"
+${__KUBECTL__} delete -f ${__HYFI_DEPLOYMENT__} 2>/dev/null && wait $!  && sleep 3 \
+&& printf "\n\n"
+#
+wait $!
+#
 fi
-#    
+#
+# Remove www containers
+#
+#if [  $(${__DOCKER__} ps -a | grep -c www) != 0  ]; then
+#
+#${__DOCKER__} kill $(${__DOCKER__} ps -a | grep www | gawk {'print $1'} 2>/dev/null) 2>/dev/null
+#
+#wait $! && echo
+#
+#${__DOCKER__} rm $(${__DOCKER__} ps -a | grep www | gawk {'print $1'} 2>/dev/null)  2>/dev/null \
+#&& printf "\n\n${RED}$1${NC}\n\n"
+#
+#wait $! && echo
+#
+#fi
+#
+#
 printf "\n\nEnvironment cleaned up......\n\n"
 #
 ################################################################
@@ -86,8 +109,14 @@ wait $!
 #
 # Remove deployments
 if [  $(${__KUBECTL__} get deployments.apps -A | grep -c hyfi ) != 0  ]; then
-        ${__KUBECTL__} delete -f ${__HYFI_DEPLOYMENT__}  2>/dev/null
-    wait $!
-    printf "\n\nRemoving Test Deployment.....\n\n"
+#
+${__KUBECTL__} delete -f ${__HYFI_DEPLOYMENT__}  2>/dev/null \
+&& printf "\n\n${RED}$1${NC}\n\n"
+#
+wait $!
+#
+printf "\n\nRemoving Test Deployment.....\n\n"
+#
 fi
+#
 echo "Build completed......"
