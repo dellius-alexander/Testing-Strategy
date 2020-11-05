@@ -12,15 +12,10 @@ Upon each iteration Cypress will be rebuilt via [cypress.Dockerfile](./cypress.D
 ---
 ---
 
+## Jenkins Demo Video
+
 .... <!-- post content -->
 
-<div class="iframe_container">
-
-  <iframe width="560" height="315" 
-    src="https://www.youtube.com/embed/jFOrcgQPZ1k" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen="allowfullscreen"></iframe>
-</div>
+[![Jenkins](media\screenshot_contact_sizing.png)](https://www.youtube.com/embed/jFOrcgQPZ1k "Jenkins")
 
 .... <!-- post content -->
