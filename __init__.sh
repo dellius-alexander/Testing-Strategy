@@ -118,7 +118,7 @@ wait $!
 #
 cd Testing-Strategy
 #
-./__init_container__.sh  2>/dev/null
+./__init_container__.sh  #2>/dev/null
 #
 wait $!
 #

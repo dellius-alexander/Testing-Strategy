@@ -13,7 +13,7 @@ RUN cd /home/cypress
 RUN mkdir -p /home/cypress/e2e && \
     cd /home/cypress/e2e 
 WORKDIR  /home/cypress/e2e
-ENV __CYPRESS_TESTS__=/home/cypress/e2e/cypress/integration
+ENV __CYPRESS_TESTS__=/home/cypress/e2e/cypress/integration/cypress_tests
 ENV __CYPRESS_DIR__=/home/cypress/e2e/cypress
 # avoid too many progress messages
 # https://github.com/cypress-io/cypress/issues/1243
@@ -61,7 +61,8 @@ RUN npm i -D cypress-wait-until --save-dev
 RUN npm install -D cypress-xpath --save-dev
 # unset NODE_OPTIONS # this is not the same as export NODE_OPTIONS=
 ENV NODE_OPTIONS='--max-http-header-size=1048576 --http-parser=legacy'
-
+ENV __PACKAGE_JSON__=/home/cypress/e2e/package.json
+ENV __CYPRESS_JSON__=/home/cypress/e2e/cypress.json
 # set debugging for dev purposes *************
 ENV DEBUG="cypress:* cypress run" 
 RUN printf "node version:    $(node -v)\n"
@@ -71,11 +72,7 @@ RUN printf "debian version:  $(cat /etc/debian_version)\n"
 RUN printf "user:            $(whoami)\n"
 RUN printf "chrome:          $(google-chrome --version)\n"
 RUN printf "firefox:         $(firefox --version)\n"
-ENV __PACKAGE_JSON__=/home/cypress/e2e/package.json
-ENV __CYPRESS_JSON__=/home/cypress/e2e/cypress.json
-RUN printf "\n${__PACKAGE_JSON__}\n\n${__CYPRESS_JSON__}\n"
-RUN printf "\nPachage.json file: \n\n${__PACKAGE_JSON__}\n" \
-&&  printf "\nCypress.json file: \n\n${__CYPRESS_JSON__}\n"
+# copy files to the new image
 COPY [ "package.json", "." ]
 RUN printf "\n\nContents of: ${pwd} \n\n" \
 && pwd && ls -lia && sleep 2 \
@@ -90,6 +87,10 @@ RUN printf "\n\nCypress Tests Directory: ${__CYPRESS_TESTS__}\n\n"
 COPY [ "./cypress_tests/", "${__CYPRESS_TESTS__}" ]
 RUN printf "\n\nContents of: ${__CYPRESS_TESTS__} \n\n" \
 && ls -lia ${__CYPRESS_TESTS__} && sleep 2
+# verify configuration files
+RUN printf "\n${__PACKAGE_JSON__}\n\n${__CYPRESS_JSON__}\n"
+RUN printf "\nPachage.json file: \n\n${__PACKAGE_JSON__}\n" \
+&&  printf "\nCypress.json file: \n\n${__CYPRESS_JSON__}\n"
 RUN env
 RUN printf "\nCurrent Directory: \n${pwd}\n\nObjects in current directory: \n\n" \
 && ls -lia ${pwd} && printf "\n\nRoot directory: \n\n" && ls -lia /
