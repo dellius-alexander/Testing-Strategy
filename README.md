@@ -15,7 +15,7 @@ Upon each iteration Cypress will be rebuilt via [cypress.Dockerfile](./cypress.D
 .... <!-- post content -->
 
 <div class="video_container">
-  <video controls="controls" allowfullscreen="true" poster="./media/@jenkins-deployment-664dfb6f79-zbgnf__var_jenkins_home_workspace_cypress_build 2020-11-04 21-01-27.mp4"
+  <video controls="controls" allowfullscreen="true" poster="media\screenshot_contact_sizing.png"
     style="width:100%; height:300px;">
     <source src="./media/@jenkins-deployment-664dfb6f79-zbgnf__var_jenkins_home_workspace_cypress_build 2020-11-04 21-01-27.mp4" type="video/mp4">
   </video> 
