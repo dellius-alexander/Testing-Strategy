@@ -11,6 +11,10 @@ In order to properly run jenkins we will need to create each object below by acc
 - jenkins-deployment.yaml: ***Jenkins Deployment***, ***Jenkins Service***
 
 ```bash
+# create a jenkins namespace
+$ kubectl create namespace jenkins
+  namespace/jenkins created
+# Deploy jenkins resources
 $ kubectl apply -f jenkins-rbac.yaml && \
   kubectl apply -f jenkins-volume.yaml && \
   kubectl apply -f jenkins-deployment
@@ -36,6 +40,7 @@ Retrieve the ServiceAccount token with this one liner command (the value
 will be required to configure Jenkins credentials later on):
 
 ```bash
+# Retrieve the ServiceAccount token
 $ kubectl get secret $(kubectl get sa -n jenkins jenkins \
   -o jsonpath={.secrets[0].   name}) \
   -n jenkins -o jsonpath={.data.token} | base64 --decode
@@ -53,6 +58,7 @@ $ kubectl config view --minify | grep server
 $ kubectl get -n jenkins services | gawk -p {'print $5'} | cut -c 1-14
 
   PORT(S)
+# <container port>:<service port>
   8080:32307/TCP
 ```
 ---
@@ -61,11 +67,12 @@ Retrieve the Kubernetes API Server CA Certificate this one liner command
 (the value will be required to configure the kubernetes plugin later on):
 
 ```bash
+# Retrieve the Kubernetes API Server CA Certificate
 $ kubectl get secret $(kubectl get sa -n jenkins jenkins \
 -o jsonpath={.secrets[0].name}) \
 -n jenkins -o jsonpath={.data.'ca\.crt'} | base64 --decode
 ```
-(Note: For more details about those values, have a look at Kubernetes - Authentication - Service Account Tokens)
+(Note: For more details about those values, have a look at [Kubernetes - Authentication - Service Account Tokens](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens))
 
 ---
 
