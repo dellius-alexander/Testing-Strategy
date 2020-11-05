@@ -14,6 +14,8 @@ cypress.docker-compose.yaml
 *.log
 *-ingress*.yaml
 *-loadbalancer*.yaml
+*CentOS-Base.repo
+init_container.sh
 
 # Remove these directories
 **/video
@@ -31,4 +33,5 @@ acme/
 certs/
 jenkins/plugins/
 !**/**/cypress_tests/
-*CentOS-Base.repo
+qa/
+node_modules/

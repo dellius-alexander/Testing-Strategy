@@ -5,7 +5,6 @@
 FROM jenkins/jenkins:lts-centos
 # Make changes as user root
 USER root
-COPY ./CentOS-Base.repo  /etc/yum.repos.d/
 RUN yum update && yum update -y
 # verify build ARG's
 RUN echo "Jenkins home: /var/jenkins_home"
