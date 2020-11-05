@@ -31,3 +31,4 @@ acme/
 certs/
 jenkins/plugins/
 !**/**/cypress_tests/
+*CentOS-Base.repo
