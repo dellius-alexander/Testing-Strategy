@@ -19,13 +19,16 @@ The pipeline build has been automated using the *[__init_container__.sh](./__ini
 You may use various methods to define a jenkins build. For the purpose of this project we emply a shell script to automate our pipeline.
 
 ---
-### Build Stages
+### Build Stages:
 <br/>
-This process has been automated for ease of use upon script execution:
-<br/><br/>
-<pre>
+
+**This process has been automated for ease of use upon script execution:**
+<br/>
+
 A. The environment is cleansed of any old version of the repo. 
+
 B. A new copy of the repo is cloned into our Jenkins environment.
+
 C. The *[__init_container__.sh](./__init_container__.sh)* script is executed 
    in our Jenkins environment. The script setups up your environment by 
    access the environment file, which is loosely coupled for flexibility 
@@ -41,7 +44,7 @@ C. The *[__init_container__.sh](./__init_container__.sh)* script is executed
       cypress container.
    6. Once completed, the webservice and test environment is distroyed and 
       cleansed for the next interation.
-</pre>
+
 <br/>
 
 ---
