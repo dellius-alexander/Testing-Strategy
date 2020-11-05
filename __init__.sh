@@ -29,7 +29,7 @@ function __remove_cntr__(){
 #
 source $(find . -type f -iname 'project.env') 2>/dev/null && wait $!
 #
-printf "\n\n${__HYFI_DEPLOYMENT__}\n\n"
+printf "\nWebserver Deployment file: \n${__HYFI_DEPLOYMENT__}\n\n"
 #
 #
 printf "\n\nRemoving running containers or Deployments......\n\n"
