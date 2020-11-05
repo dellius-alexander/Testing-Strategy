@@ -5,6 +5,8 @@
 FROM jenkins/jenkins:lts-centos
 # Make changes as user root
 USER root
+COPY ./CentOS-Base.repo  /etc/yum.repos.d/
+RUN yum update && yum update -y
 # verify build ARG's
 RUN echo "Jenkins home: /var/jenkins_home"
 # Setup environment variables
@@ -20,6 +22,8 @@ RUN  yum-config-manager \
 RUN yum install -y docker-ce docker-ce-cli containerd.io
 # Kubernetes Setup Add yum repository
 COPY ./__kubectl__.sh .
+# Copy CentOS-Base.repo
+COPY ./CentOS-Base.repo  /etc/yum.repos.d/
 RUN chmod +x ./__kubectl__.sh
 RUN ./__kubectl__.sh
 RUN yum install -y kubectl
