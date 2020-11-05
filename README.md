@@ -45,8 +45,6 @@ C. The *[__init_container__.sh](./__init_container__.sh)* script is executed
    6. Once completed, the webservice and test environment is distroyed and 
       cleansed for the next interation.
 
-<br/>
-
 ---
 ### See Demo Video
 .... <!-- post content -->
