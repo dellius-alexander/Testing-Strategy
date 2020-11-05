@@ -12,6 +12,6 @@ Upon each iteration Cypress will be rebuild via [Dockerfile](cypress.Dockerfile)
 ---
 ---
 <iframe
-  src="media\@jenkins-deployment-664dfb6f79-zbgnf__var_jenkins_home_workspace_cypress_build 2020-11-04 21-01-27 - Shortcut.lnk"
+  src="./media/@jenkins-deployment-664dfb6f79-zbgnf__var_jenkins_home_workspace_cypress_build 2020-11-04 21-01-27.mp4"
   style="width:100%; height:300px;"
 ></iframe>
