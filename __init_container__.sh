@@ -113,7 +113,7 @@ printf "\nStarting Cypress Headless Mode......\n\n"
 ${__DOCKER__} run -it --rm  -d --cap-add=sys_nice \
 --ulimit rtprio=99 \
 --memory=1024m \
--v ${pwd}/cypress_tests/:/home/cypress/e2e/cypress/integration/ \
+-v ${pwd}/cypress_tests/:/home/cypress/e2e/cypress/integration/cypress_tests \
 -v ${pwd}/video:/home/cypress/e2e/cypress/videos/ \
 -e DEBUG='cypress:run' \
 -e PAGELOADTIMEOUT=60000 \
