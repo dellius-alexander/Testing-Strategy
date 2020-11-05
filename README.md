@@ -26,7 +26,11 @@ This process has been automated for ease of use upon script execution:
 <pre>
 A. The environment is cleansed of any old version of the repo. 
 B. A new copy of the repo is cloned into our Jenkins environment.
-C. The *[__init_container__.sh](./__init_container__.sh)* script is executed in our Jenkins environment. The script setups up your environment by access the environment file, which is loosely coupled for flexibility of environments.  Then we starts our build process, in the following order.
+C. The *[__init_container__.sh](./__init_container__.sh)* script is executed 
+   in our Jenkins environment. The script setups up your environment by 
+   access the environment file, which is loosely coupled for flexibility 
+   of environments.  Then we starts our build process, in the following order.
+
    1. Clone the repo containing the webservice files and build the new 
       webservice image.
    2. Use our newly created image in our local registry and run the webservice.
