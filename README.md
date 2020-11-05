@@ -16,6 +16,6 @@ Upon each iteration Cypress will be rebuilt via [cypress.Dockerfile](./cypress.D
 
 .... <!-- post content -->
 
-[![Jenkins](media\screenshot_contact_sizing.png)](https://www.youtube.com/embed/jFOrcgQPZ1k "Jenkins")
+[![Jenkins](media/screenshot_contact_sizing.png)](https://www.youtube.com/embed/jFOrcgQPZ1k "Jenkins")
 
 .... <!-- post content -->
