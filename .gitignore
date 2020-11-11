@@ -16,6 +16,8 @@ cypress.docker-compose.yaml
 *-loadbalancer*.yaml
 *CentOS-Base.repo
 init_container.sh
+jenkins-gce*
+/**/jenkins-all-in-one.yaml
 
 # Remove these directories
 **/video

@@ -30,9 +30,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-  # Windows hostPath wsl:
-    #path: "D:\\SynologyDrive\@PROJECTS/Testing-Strategy\kubernetes\jenkins\jenkins_data"
-  # Linux hostPath:
+  # Linux hostPath
     path: "/mnt/nfs/jenkins_data"
 
 

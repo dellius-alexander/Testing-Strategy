@@ -102,13 +102,13 @@ __remove_repo__
 #
 wait $!
 #
-[ $? != 0 ] && echo "Something went wrong removing...$0"
+[ $? != 0 ] && echo "Something went wrong removing...${?}"
 #
 __remove_cntr__
 #
 wait $!
 #
-[ $? != 0 ] && echo "Something went wrong removing...$0"
+[ $? != 0 ] && echo "Something went wrong removing...${?}"
 
 
 ################################################################
