@@ -180,7 +180,7 @@ The daemon listens on  but you can Bind Docker to another host/port or a Unix so
 <br/>
     See below sample declarative pipeline:    
 
-    ```javascript
+    ```Javascript
     pipeline {
         agent any
         stages {
@@ -204,6 +204,7 @@ The daemon listens on  but you can Bind Docker to another host/port or a Unix so
             }
         }
     }
+
     ```
 
 3. Execute a bash shell script instead of a declarative pipeline Jenkinsfile
