@@ -1,14 +1,6 @@
 pipeline {
-    agent {
-        docker { image 'nginx:1.19.3' }
-    }
+    agent any
     stages {
-        stage ('Get Repo'){
-            steps {
-                sh 'git clone https://github.com/dellius-alexander/responsive_web_design.git'
-                sh 'cd responsive_web_design'
-            }
-        }
         stage ('Build'){
             steps {
                 // docker build -t dalexander2israel/www_hyfi:v3 -f www.Dockerfile .
@@ -24,29 +16,25 @@ pipeline {
     }
 }
 
-
-
-
-
-pipeline {
-    agent {
-        docker { image 'nginx:1.19.3' }
-    }
-    stages {
-        stage('Build image') {
-            steps {
-                sh 'git clone https://github.com/dellius-alexander/responsive_web_design.git'
-                sh 'docker build -t dalexander2israel/www_hyfi:v3 -f www.Dockerfile .'
-                sh 'echo "Building new webservice image complete......"'
-            }
-        }
-        stage('Run new image')
-          steps{
-              sh 'docker run -it -d -P --name www dalexander2israel/www_hyfi:v3'
-              sh 'echo container is up and running......'
-          }
-    }
-}
+// pipeline {
+//     agent {
+//         docker { image 'nginx:1.19.3' }
+//     }
+//     stages {
+//         stage('Build image') {
+//             steps {
+//                 sh 'git clone https://github.com/dellius-alexander/responsive_web_design.git'
+//                 sh 'docker build -t dalexander2israel/www_hyfi:v3 -f www.Dockerfile .'
+//                 sh 'echo "Building new webservice image complete......"'
+//             }
+//         }
+//         stage('Run new image')
+//           steps{
+//               sh 'docker run -it -d -P --name www dalexander2israel/www_hyfi:v3'
+//               sh 'echo container is up and running......'
+//           }
+//     }
+// }
 
 // podTemplate(
 //     name: 'test-pod',
