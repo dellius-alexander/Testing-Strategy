@@ -33,9 +33,8 @@ $ kubectl apply -f jenkins-rbac.yaml && \
   kubectl apply -f jenkins-deployment
 ```
 Once jenkins is running. We can access the jenkins service via: **http:\/\/Kubernetes_API_Server_URL\>:\<Service_Port\>**
-- [http://10.240.0.12:32307](#)
 
-You can retrieve these using ***kubectl***. [See below](#KubernetesServerURL&Ports)
+You can retrieve these using ***kubectl***. [See below](#What-comes-next)
 
 ---
 ### First Time Accessing Jenkins
@@ -146,7 +145,7 @@ The daemon listens on  but you can Bind Docker to another host/port or a Unix so
 
 ---
 
-### 5. Whats comes next...
+### 5. <a href="" id="What-comes-next"></a>What comes next...
 
 1. Access jenkins from a browser via the ***http:\/\/\<Kubernetes_API_Server_URL>:\<Service_Port>**
 2. Access Jenkins default password on first time login: <br/>
