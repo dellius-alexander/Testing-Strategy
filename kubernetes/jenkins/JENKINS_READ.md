@@ -43,12 +43,37 @@ You can retrieve these using ***kubectl***. [See below](#What-comes-next)
 You will need the admin access token upon initial setup. Once you have created the first admin account this option will not work again.  You will have to delete your entire jenkins data to reset defaults, so don't forget your password. But this assumes you have access to the persisted volume location where Jenkins installed up initial deployment. Enter the following command to retrieve the Jenkins admin password upon first startup.  
 <br/><br/>
 
+Access Jenkins default password on first time login: <br/>
+    *[See Access Jenkins dashboard for more details](https://www.jenkins.io/doc/book/installing/kubernetes/#access-jenkins-dashboard)*
 ```bash
 # This will be removed after you setup admin account.
 $ kubectl exec -it -n jenkins jenkins-deployment-<unique_hash> -- \
   cat /var/jenkins_home/secrets/initialAdminPassword
 ```
-<p><strong>Thats is you're all set to start using jenkins. Please see:</strong>
+
+The password is at the end of the log formatted as a long alphanumeric string:
+
+```bash
+
+*************************************************************
+*************************************************************
+*************************************************************
+
+Jenkins initial setup is required.
+An admin user has been created and a password generated.
+Please use the following password to proceed to installation:
+
+94b73ef6578c4b4692a157f768b2cfef
+
+This may also be found at:
+/var/jenkins_home/secrets/initialAdminPassword
+
+*************************************************************
+*************************************************************
+*************************************************************
+```
+
+<p><strong>That's it you're all set to start using jenkins. Please see:</strong>
 <a href="https://www.jenkins.io/doc/book/installing/kubernetes/" id="JenkinsInstallReference">Jenkins install reference for more details</a>
 
 
@@ -148,39 +173,8 @@ The daemon listens on  but you can Bind Docker to another host/port or a Unix so
 ### 5. <a href="" id="What-comes-next"></a>What comes next...
 
 1. Access jenkins from a browser via the ***http:\/\/\<Kubernetes_API_Server_URL>:\<Service_Port>**
-2. Access Jenkins default password on first time login: <br/>
-    *[See Access Jenkins dashboard for more details](https://www.jenkins.io/doc/book/installing/kubernetes/#access-jenkins-dashboard)*
 
-    <br/>
-
-    ```bash
-    # Get the Jenkins default first time login token:
-    $ kubectl exec -it -n jenkins jenkins-deployment-664dfb6f79-zbgnd -- cat /var/jenkins_home/secrets/initialAdminPassword
-    ```
-
-    The password is at the end of the log formatted as a long alphanumeric string:
-    
-    ```bash
-    
-    *************************************************************
-    *************************************************************
-    *************************************************************
-    
-    Jenkins initial setup is required.
-    An admin user has been created and a password generated.
-    Please use the following password to proceed to installation:
-    
-    94b73ef6578c4b4692a157f768b2cfef
-    
-    This may also be found at:
-    /var/jenkins_home/secrets/initialAdminPassword
-    
-    *************************************************************
-    *************************************************************
-    *************************************************************
-    ```
-
-3. Once you have setup the admin account you can begin setting up your pipeline.
+2. Once you have setup the admin account you can begin setting up your pipeline.
     
     *[Read More about Pipeline Syntax](https://www.jenkins.io/doc/book/pipeline/syntax/#pipeline-syntax)*
 <br/>
@@ -212,7 +206,7 @@ The daemon listens on  but you can Bind Docker to another host/port or a Unix so
     }
     ```
 
-4. Execute a bash shell script instead of a declarative pipeline Jenkinsfile
+3. Execute a bash shell script instead of a declarative pipeline Jenkinsfile
 
       - In this project the [__init__.sh](../../__init__.sh) script is used to automate the entire build and test process. Her a snippet of the main driver.
         
@@ -273,6 +267,7 @@ The daemon listens on  but you can Bind Docker to another host/port or a Unix so
 ### Conclusion
 
 Jenkins is a powerful CI/CD tool and it can be configured to do just about anything.  Please remember to setup your Global and System user configurations upon first time login. I hope this was helpful to your Jenkins journey.
+
 
 ---
 ---
