@@ -19,6 +19,7 @@ The pipeline build has been automated using the *[__init_container__.sh](./__ini
 You may use various methods to define a jenkins build. For the purpose of this project we emply a shell script to automate our pipeline.
 
 ---
+
 ### Build Stages:
 <br/>
 
