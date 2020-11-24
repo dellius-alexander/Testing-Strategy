@@ -1,4 +1,0 @@
-{
-    "pageLoadTimeout": 90000,
-    "baseUrl": "http://host.docker.internal:32609"
-}
