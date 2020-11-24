@@ -74,21 +74,26 @@ done
 #
 fi
 #
+################################################################
+################################################################
 # Remove www containers
 #
 #if [  $(${__DOCKER__} ps -a | grep -c www) != 0  ]; then
 #
-#${__DOCKER__} kill $(${__DOCKER__} ps -a | grep www | gawk {'print $1'} 2>/dev/null) 2>/dev/null
+#${__DOCKER__} kill $(${__DOCKER__} ps -a | grep www |\
+#gawk {'print $1'} 2>/dev/null) 2>/dev/null
 #
 #wait $! && echo
 #
-#${__DOCKER__} rm $(${__DOCKER__} ps -a | grep www | gawk {'print $1'} 2>/dev/null)  2>/dev/null \
+#${__DOCKER__} rm $(${__DOCKER__} ps -a | grep www | \
+#gawk {'print $1'} 2>/dev/null)  2>/dev/null \
 #&& printf "\n\n${RED}$1${NC}\n\n"
 #
 #wait $! && echo
 #
 #fi
-#
+################################################################
+################################################################
 #
 printf "\n\nEnvironment cleaned up......\n\n"
 #
