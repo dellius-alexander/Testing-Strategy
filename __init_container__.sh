@@ -46,7 +46,9 @@ echo  "Hyfi Container Count: ${__HYFI_CNTR_COUNT__}"
 echo  "Cypress Container Count: ${__CYPRESS_CNTR_COUNT__}"
 #
 # Starting webserver ...
-[[ ${__HYFI_CNTR_COUNT__} != 0 ]] && ${__DOCKER__} rm $(docker ps -a | grep )
+[[ ${__HYFI_CNTR_COUNT__} != 0 ]] && \
+${__DOCKER__} rm $(docker ps -a | grep www | gawk {'print $1'})
+#
 if [[ ${__HYFI_CNTR_COUNT__} == 0 ]]; then
 
 # Docker build ...
@@ -80,7 +82,9 @@ printf "\n\nDeploying webservice for testing......\n\n"
 ${__KUBECTL__} apply -f $(find "${JENKINS_HOME}" -type f -iname 'hyfi-deployment.yaml' -print 2>/dev/null \
 || find . -type f -iname 'hyfi-deployment.yaml' 2>/dev/null)
 #
-#${__DOCKER__} run -it --rm -d -p 32609:80 --cpus="0.5" --name www ${__WWW_WEBSERVER_IMAGE__}
+#${__DOCKER__} run -it --rm \
+#-d -p 32609:80 \
+#--cpus="0.5" --name www ${__WWW_WEBSERVER_IMAGE__}
 #
 wait $!
 #
@@ -91,6 +95,9 @@ fi
  wait $!
 #
 # Start Cypress ...
+[[ ${__HYFI_CNTR_COUNT__} != 0 ]] && \
+${__DOCKER__} rm $(docker ps -a | grep cypress | gawk {'print $1'})
+#
 if [[ ${__CYPRESS_CNTR_COUNT__}  == 0 ]]; then
 # Docker build ...
 printf "\nBuilding Cypress docker image...\n\n"
@@ -138,7 +145,7 @@ printf "\nStarting Cypress Headless Mode......\n\n"
 ${__DOCKER__} run -it --rm  -d --cap-add=sys_nice \
 --ulimit rtprio=99 \
 --memory=1024m \
--v ${pwd}/cypress_tests/:/home/cypress/e2e/cypress/integration/ \
+-v ${pwd}/cypress_tests/:/home/cypress/e2e/cypress/integration/cypress_tests \
 -v ${pwd}/video:/home/cypress/e2e/cypress/videos/ \
 -e DEBUG='cypress:run' \
 -e PAGELOADTIMEOUT=60000 \
