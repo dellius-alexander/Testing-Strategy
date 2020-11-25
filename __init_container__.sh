@@ -73,7 +73,7 @@ wait $!
 #
 printf "\nPushing new image to repo...\n\n"
 #
-${__DOCKER__} push ${__WWW_WEBSERVER_IMAGE__} 
+${__DOCKER__} push ${__WWW_WEBSERVER_IMAGE__}
 #
 wait $!
 #

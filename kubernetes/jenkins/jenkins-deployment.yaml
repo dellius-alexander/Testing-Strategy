@@ -85,18 +85,17 @@ metadata:
   namespace: jenkins
   labels:
     app: jenkins
-    tier: frontend
+    #tier: frontend
 spec:
+  maxReplicas: 5
+  minReplicas: 1
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: jenkins-deployment
-  maxReplicas: 5
-  minReplicas: 1
   targetCPUUtilizationPercentage: 50
 status:
   observedGeneration: 1
-  #lastScaleTime: ""
   currentReplicas: 1
   desiredReplicas: 1
 
