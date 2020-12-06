@@ -61,7 +61,7 @@ spec:
         - mountPath: /var/jenkins_home
           name: jenkins
         - mountPath: /var/run/docker.sock
-          name: docker-sock-volume
+          name: docker-host
       restartPolicy: Always
       securityContext:
         runAsUser: 0
@@ -71,7 +71,7 @@ spec:
         # emptyDir: {}  # Data is not persisted across pod failures
         persistentVolumeClaim:    # Data is persisted across pod failures
           claimName: jenkins-pvc
-      - name: docker-sock-volume
+      - name: docker-host
         hostPath:
           path: /var/run/docker.sock
 
