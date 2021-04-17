@@ -5,6 +5,7 @@
 RED='\033[0;31m' # Red
 NC='\033[0m' # No Color CAP
 __PROJECT_ENV__=$(find ~+ -type f -name 'project.env');
+__DOCKER__=$(command -v docker)
 ###############################################################################
 ###############################################################################
 ###############################################################################
@@ -47,7 +48,7 @@ echo  "Cypress Container Count: ${__CYPRESS_CNTR_COUNT__}"
 #
 # Starting webserver ...
 [[ ${__HYFI_CNTR_COUNT__} != 0 ]] && \
-${__DOCKER__} rm $(docker ps -a | grep www | gawk {'print $1'})
+${__DOCKER__} rm $(docker ps -a | grep www | awk {'print $1'})
 #
 if [[ ${__HYFI_CNTR_COUNT__} == 0 ]]; then
 
@@ -96,7 +97,7 @@ fi
 #
 # Start Cypress ...
 [[ ${__HYFI_CNTR_COUNT__} != 0 ]] && \
-${__DOCKER__} rm $(docker ps -a | grep cypress | gawk {'print $1'})
+${__DOCKER__} rm $(docker ps -a | grep cypress | awk {'print $1'})
 #
 if [[ ${__CYPRESS_CNTR_COUNT__}  == 0 ]]; then
 # Docker build ...
@@ -146,12 +147,14 @@ ${__DOCKER__} run -it --rm  -d --cap-add=sys_nice \
 --ulimit rtprio=99 \
 --memory=1024m \
 -v ${pwd}/cypress_tests/:/home/cypress/e2e/cypress/integration/cypress_tests \
+-v /tmp/.X11-unix:/tmp/
 -v ${pwd}/video:/home/cypress/e2e/cypress/videos/ \
 -e DEBUG='cypress:run' \
 -e PAGELOADTIMEOUT=60000 \
 -w /home/cypress/e2e --entrypoint=cypress \
 --name=cypress ${__CYPRESS_INCLUDED_IMAGE__}  \
-run --project . --headless --browser firefox --spec '/home/cypress/e2e/cypress/integration/*'
+open --project . \
+--config baseUrl=http://host.docker.internal:39001
 #
 wait $!
 #
@@ -190,3 +193,4 @@ exit 0
 # open --project . \
 # --config baseUrl=http://host.docker.internal:32609
 ###############################################################################
+# run --project . --browser firefox --spec '/home/cypress/e2e/cypress/integration/*'
