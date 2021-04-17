@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////
 pipeline {
+    def webserver
     agent any
     stages {
         stage('Get responsive web design Repo'){
@@ -11,23 +12,26 @@ pipeline {
                 }
 
         }
-        stage('Build Web Server'){
+        stage('Build Webserver image'){
                 steps {
                     sh '''
                     echo "Verify responsive_web_design repo...";
                     RWD_REPO=($(find . -type f -name 'www.Dockerfile'))
                     if [[ "$(basename ${RWD_REPO})" =~ ^(www.Dockerfile)$ ]]; then
                     echo "Repo cloned to build step...";
-                    docker build -t registry.dellius.app/hyfi_web:v2.3 -f ${RWD_REPO[0]} .;
+                    webserver = docker build -t registry.dellius.app/hyfi_web:v2.3 -f ${RWD_REPO[0]} .;
                     fi;
                     '''
                 }
         }
-        stage('Push to Repository'){
+        stage('Push webserver image to Repository'){
             steps{
                 sh '''
                 echo "Pushing registry.dellius.app/hyfi_web:v2.3 image to container registry";
-                docker push registry.dellius.app/hyfi_web:v2.3;
+                docker.withRegistry('registry.dellius.app', 'Private container registry') {
+                webserver.push("${env.BUILD_NUMBER}")
+                webserver.push("latest")
+                }
                 '''
             }
         }
