@@ -2,12 +2,24 @@
 pipeline {
     agent any
     stages {
-        stage('Setup Environment'){
-            steps('Setup'){
-                sh '''
-                echo "This is just a test";
-                '''
-            }
+        stage('Get responsive web design Repo'){
+                steps {
+                    sh '''
+                    git clone https://github.com/dellius-alexander/responsive_web_design.git;
+                    ls -lia;
+                    '''
+                }
+
+        }
+        stage('verify Repo download'){
+                steps {
+                    sh '''
+                    echo "Verify responsive_web_design repo...";
+                    if [[ $(find -type d -name 'responsive_web_design') =~ ^(responsive_web_design) ]]; then
+                    echo "Repo cloned to build step...";
+                    fi;
+                    '''
+                }
         }
     }
 
