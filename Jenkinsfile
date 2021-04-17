@@ -15,7 +15,7 @@ pipeline {
                 steps {
                     sh '''
                     echo "Verify responsive_web_design repo...";
-                    RWD_REPO=$(find . -type f -name 'www.Dockerfile')
+                    RWD_REPO=($(find . -type f -name 'www.Dockerfile'))
                     if [[ "$(basename ${RWD_REPO})" =~ ^(www.Dockerfile)$ ]]; then
                     echo "Repo cloned to build step...";
                     docker build -t registry.dellius.app/hyfi_web:v2.3 -f ${RWD_REPO[0]} .;
