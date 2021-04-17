@@ -11,12 +11,14 @@ pipeline {
                 }
 
         }
-        stage('verify Repo download'){
+        stage('Build Web Server'){
                 steps {
                     sh '''
                     echo "Verify responsive_web_design repo...";
-                    if [[ $(find -type d -name 'responsive_web_design') =~ ^(responsive_web_design) ]]; then
+                    RWD_REPO=$(find ~+ -type f -name 'www.Dockerfile')
+                    if [[ "${RWD_REPO}" =~ ^(www.Dockerfile)$ ]]; then
                     echo "Repo cloned to build step...";
+                    docker build -t registry.dellius.app/hyfi_web:v2.3 -f ${RWD_REPO} .;
                     fi;
                     '''
                 }
