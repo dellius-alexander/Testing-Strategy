@@ -1,4 +1,4 @@
-# escape=\ (backslash)
+# escape=\
 #
 FROM  nginx:1.19.3
 RUN apt update && apt-get -y upgrade \

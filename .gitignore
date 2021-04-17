@@ -3,6 +3,7 @@
 !jenkins/init_jenkins.sh
 
 # Ignore these files in local dev
+www.Dockerfile
 **/docker
 **/.vscode
 *.scratch
