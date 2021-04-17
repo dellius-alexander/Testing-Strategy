@@ -3,6 +3,7 @@
 FROM  nginx:1.19.3
 RUN apt update && apt-get -y upgrade \
 && apt install -y git
+#
 RUN uname -a
 RUN echo "Successfully updated and upgrade"
 #####################################################################
