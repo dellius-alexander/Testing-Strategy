@@ -6,7 +6,7 @@ pipeline{
             parallel { // parallel build stages
                 stage('Build Docker Image'){
                     steps {
-                        node docker {
+                        node {
                             def www_image
                             git 'https://github.com/dellius-alexander/responsive_web_design.git'
                             
@@ -23,7 +23,7 @@ pipeline{
                 }
                 stage('Building Cypress Image'){
                     steps {
-                        node docker {
+                        node {
                             def cypress_image
                             step('Building Cypress Test Image...') {
                                 docker.withRegistry('https://registry.dellius.app', 'PRIVATE_CNTR_REGISTRY')
