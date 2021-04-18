@@ -13,7 +13,7 @@ pipeline{
                             step('Building Webserver Image...') {
                                 docker.withRegistry('https://registry.dellius.app', 'PRIVATE_CNTR_REGISTRY')
                                 def www_dockerfile = 'www.Dockerfile'
-                                def www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
+                                www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
                             }
                             step('Pushing Webserver image to private repo...'){
                                 www_image.push()
@@ -28,7 +28,7 @@ pipeline{
                             step('Building Cypress Test Image...') {
                                 docker.withRegistry('https://registry.dellius.app', 'PRIVATE_CNTR_REGISTRY')
                                 def cypress_dockerfile = 'cypress.Dockerfile'
-                                def cypress_image = docker.build("cypress/custom:5.4.0:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")                        
+                                cypress_image = docker.build("cypress/custom:5.4.0:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")                        
                             }
                             step('Pushing Cypress image to private repo...'){
                                 cypress_image.push()
