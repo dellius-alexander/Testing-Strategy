@@ -88,7 +88,7 @@ COPY [ "./cypress_tests/", "${__CYPRESS_TESTS__}" ]
 RUN printf "\n\nContents of: ${__CYPRESS_TESTS__} \n\n" \
 && ls -lia ${__CYPRESS_TESTS__}
 # verify configuration files
-RUN printf ("\n${__PACKAGE_JSON__}\n\n") \
+RUN printf "\n${__PACKAGE_JSON__}\n\n" \
 && cat "${__CYPRESS_JSON__}"
 RUN printf "\nPachage.json file: \n\n" \
 && cat "${__PACKAGE_JSON__}" \
