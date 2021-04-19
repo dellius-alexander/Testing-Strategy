@@ -35,6 +35,7 @@ pipeline{
                 //         }
                 //     }
                 // }
+                // Building Cypress Image...
                 stage('Building Cypress Image'){
                     steps {
                         script {
