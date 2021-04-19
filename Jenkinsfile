@@ -58,7 +58,7 @@ pipeline{
                 // cypress run --spec cypress_tests/
                 // '''
                 sh '''
-                docker run -it --rm  -d --cap-add=sys_nice \
+                docker run --cap-add=sys_nice \
                 --ulimit rtprio=99 \
                 --memory=1024m \
                 -v ${PWD}/cypress_tests/:/home/cypress/e2e/cypress/integration/cypress_tests \
