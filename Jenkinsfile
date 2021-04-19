@@ -11,6 +11,7 @@ pipeline{
             parallel { // parallel build stages
                 stage('Build Docker Image'){
                     steps {
+                        cleanWs()
                         script {
                             def www_image
                             git 'https://github.com/dellius-alexander/responsive_web_design.git'
@@ -38,6 +39,7 @@ pipeline{
                 // Building Cypress Image...
                 stage('Building Cypress Image'){
                     steps {
+                        cleanWs()
                         script {
                             def cypress_image
                             //git 'https://github.com/dellius-alexander/Testing-Strategy.git'
