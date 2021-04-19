@@ -8,7 +8,7 @@ pipeline{
     }
     stages {
         stage('Build Test Images...'){
-            // parallel { // parallel build stages
+            parallel { // parallel build stages
                 // Building Cypress Image...
                 stage('Building Cypress Image'){
                     steps {
@@ -43,7 +43,7 @@ pipeline{
                         } // End of Script block
                     }
                 }
-            // } // End of parallel build stages
+            } // End of parallel build stages
         } // End of Build Test images stage
     } // End of Main stages
 }
