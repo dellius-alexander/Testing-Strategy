@@ -29,16 +29,14 @@ pipeline{
                                 // www_image.push('v1.9.3')
                                 // Push image to repo
                                 try{
-                                    sh 
-                                    '''
+                                    sh '''
                                     docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
                                     docker tag hyfi_webserver:${BUILD_ID} registry.dellius.app/hyfi_webserver:v1.19.3;
                                     docker push registry.dellius.app/hyfi_webserver:v1.19.3;
                                     '''
                                 }
                                 catch(e){
-                                    sh
-                                    '''
+                                    sh '''
                                     echo "Intermediate build result: ${currentBuild.result}
                                     '''
                                     throw e
