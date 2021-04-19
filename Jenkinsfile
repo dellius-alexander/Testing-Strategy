@@ -55,8 +55,11 @@ pipeline{
             }
             steps{
                 sh '''
-                docker run --rm --name cypress registry.dellius.app/cypress/custom:v5.4.0 
+                cypress run --headless  --spec "cypress_tests/*";
                 '''
+                // sh '''
+                // docker run --rm --name cypress registry.dellius.app/cypress/custom:v5.4.0 
+                // '''
             }
         } // End of Testing stage()
     } // End of Main stages
