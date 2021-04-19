@@ -53,11 +53,7 @@ pipeline{
             } // End of steps block
         } // End of Build Test images stage()
         stage('Testing image cypress/custom:v5.4.0'){ // Testing stage()
-            // agent {
-            //     docker { image 'registry.dellius.app/cypress/custom:v5.4.0'}
-            // }
             steps('Testing Responsive Web Design Webserver'){
-
                 script{
                     try{
                         sh '''
@@ -83,7 +79,6 @@ pipeline{
                         throw e
                     }
                 }
-
             }
         } // End of Testing stage()
         // stage('Deploy Webservice to Prod...'){
