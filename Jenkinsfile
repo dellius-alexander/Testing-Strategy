@@ -40,27 +40,30 @@ pipeline{
                         script {
                             def cypress_image
                             git 'https://github.com/dellius-alexander/Testing-Strategy.git'
-                            def cypress_dockerfile = '$(find ~+ -type f -name "cypress.Dockerfile")'
-                            cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
-                            //////////////////////
-                            // Push image to repo  
-                            try{
-                                sh '''
-                                docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
-                                docker push registry.dellius.app/cypress/custom:v5.4.0;
-                                echo "Intermediate build success......";
-                                '''
-                            }
-                            catch(e){
-                                sh '''
-                                echo "Intermediate build failure......";
-                                '''
-                                throw e
-                            }
+                            sh'''
+                            ls -lia;
+                            '''
+                            // def cypress_dockerfile = '$(find ~+ -type f -name "cypress.Dockerfile")'
+                            // cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
+                            // //////////////////////
+                            // // Push image to repo  
+                            // try{
+                            //     sh '''
+                            //     docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
+                            //     docker push registry.dellius.app/cypress/custom:v5.4.0;
+                            //     echo "Intermediate build success......";
+                            //     '''
+                            // }
+                            // catch(e){
+                            //     sh '''
+                            //     echo "Intermediate build failure......";
+                            //     '''
+                            //     throw e
+                            // }
                         }
                     }
                 }
-            } // End of parallel build stage
-        }
+            } // End of parallel build stages
+        } // End of Build Test images stage
     } // End of Main stages
 }
