@@ -11,11 +11,11 @@ pipeline{
                             //docker.withRegistry('https://registry.dellius.app', 'PRIVATE_CNTR_REGISTRY')
                             git 'https://github.com/dellius-alexander/responsive_web_design.git'
                             // step('Building Webserver Image...') {
-                                def www_dockerfile = 'www.Dockerfile'
+                                def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
                                 www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
 
                                 sh '''
-                                docker tag hyfi_webserver:${env.BUILD_ID} registry.dellius.app/hyfi_webserver:v1.19.3
+                                docker tag hyfi_webserver:${BUILD_ID} registry.dellius.app/hyfi_webserver:v1.19.3
                                 docker push registry.dellius.app/hyfi_webserver:v1.19.3
                                 '''
                             // }
@@ -31,10 +31,10 @@ pipeline{
                             def cypress_image
                             //docker.withRegistry('https://registry.dellius.app', 'PRIVATE_CNTR_REGISTRY')
                             // step('Building Cypress Test Image...') {
-                                def cypress_dockerfile = 'cypress.Dockerfile'
+                                def cypress_dockerfile = '$(find ~+ -type f -name "cypress.Dockerfile")'
                                 cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")          
                                 sh '''
-                                docker tag cypress/custom:${env.BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0
+                                docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0
                                 docker push registry.dellius.app/cypress/custom:v5.4.0
                                 '''              
                             // }
@@ -46,5 +46,5 @@ pipeline{
                 }
             } // End of parallel build stage
         }
-    }
+    } // End of Main stages
 }
