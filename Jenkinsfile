@@ -62,11 +62,12 @@ pipeline{
                 --ulimit rtprio=99 \
                 --memory=1024m \
                 -v ${PWD}/cypress_tests/:/home/cypress/e2e/cypress/integration/cypress_tests \
+                -v ${PWD}/video:/home/cypress/e2e/cypress/videos/ \
                 -e DEBUG='cypress:run' \
                 -e PAGELOADTIMEOUT=60000 \
                 -w /home/cypress/e2e --entrypoint=cypress \
                 registry.dellius.app/cypress/custom:v5.4.0  \
-                run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/*"
+                run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/projectplan_sizing2.spec.js"
                 '''
             }
         } // End of Testing stage()
