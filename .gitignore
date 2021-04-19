@@ -32,7 +32,6 @@ cypress/fixtures/
 cypress/integration/examples/
 cypress/plugins/
 cypress/support/
-scripts/
 acme/
 certs/
 jenkins/plugins/
