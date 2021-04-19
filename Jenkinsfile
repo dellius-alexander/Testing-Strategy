@@ -16,10 +16,10 @@ pipeline{
                             cleanWs()
                             script {
                                 def www_image
-                                sh '''
-                                git clone https://github.com/dellius-alexander/responsive_web_design.git;
-                                cd responsive_web_design;
-                                '''
+                                // sh '''
+                                // git clone https://github.com/dellius-alexander/responsive_web_design.git;
+                                // cd responsive_web_design;
+                                // '''
                                 def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
                                 www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
                                 //////////////////////
