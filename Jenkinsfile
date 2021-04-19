@@ -53,33 +53,34 @@ pipeline{
             // agent {
             //     docker { image 'registry.dellius.app/cypress/custom:v5.4.0'}
             // }
-            steps{
-                // sh '''
-                // cypress run --spec cypress_tests/
-                // '''
-                try{
-                    sh '''
-                    docker run --cap-add=sys_nice \
-                    --ulimit rtprio=99 \
-                    --memory=1024m \
-                    -v ${PWD}/cypress_tests/:/home/cypress/e2e/cypress/integration/cypress_tests \
-                    -v ${PWD}/video:/home/cypress/e2e/cypress/videos/ \
-                    -e DEBUG='cypress:run' \
-                    -e PAGELOADTIMEOUT=60000 \
-                    -w /home/cypress/e2e --entrypoint=cypress \
-                    registry.dellius.app/cypress/custom:v5.4.0  \
-                    run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/*"
-                    '''
-                    sh '''
-                    echo "Tests passed successfully......";
-                    '''
+            steps('Testing Responsive Web Design Webserver'){
+
+                script{
+                    try{
+                        sh '''
+                        docker run --cap-add=sys_nice \
+                        --ulimit rtprio=99 \
+                        --memory=1024m \
+                        -v ${PWD}/cypress_tests/:/home/cypress/e2e/cypress/integration/cypress_tests \
+                        -v ${PWD}/video:/home/cypress/e2e/cypress/videos/ \
+                        -e DEBUG='cypress:run' \
+                        -e PAGELOADTIMEOUT=60000 \
+                        -w /home/cypress/e2e --entrypoint=cypress \
+                        registry.dellius.app/cypress/custom:v5.4.0  \
+                        run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/*"
+                        '''
+                        sh '''
+                        echo "Tests passed successfully......";
+                        '''
+                    }
+                    catch(e){
+                        sh '''
+                        echo "Intermediate build failure......";
+                        '''
+                        throw e
+                    }
                 }
-                catch(e){
-                    sh '''
-                    echo "Intermediate build failure......";
-                    '''
-                    throw e
-                }
+
             }
         } // End of Testing stage()
         stage('Deploy Webservice to Prod...'){
