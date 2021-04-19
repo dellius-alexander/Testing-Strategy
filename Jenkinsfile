@@ -18,7 +18,7 @@ pipeline{
                                 def www_image
                                 sh '''
                                 git clone https://github.com/dellius-alexander/responsive_web_design.git;
-                                cd $(find -type d -name "Testing-Strategy");
+                                cd responsive_web_design;
                                 '''
                                 def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
                                 www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
@@ -50,7 +50,8 @@ pipeline{
                             script {
                                 def cypress_image
                                 sh ''' 
-                                git clone https://github.com/dellius-alexander/Testing-Strategy.git
+                                git clone https://github.com/dellius-alexander/Testing-Strategy.git;
+                                cd Testing-Strategy;
                                 '''
                                 def cypress_dockerfile = '$(find . -type f -name "cypress.Dockerfile")'
                                 cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
