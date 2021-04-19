@@ -12,12 +12,10 @@ pipeline{
                 stage('Parallel Build Webserver Image'){
                     steps {
                         dir("responsive_web_design"){
-                            checkout scm
                             cleanWs()
                             script {
                                 def www_image
                                 sh '''
-                                // git clone https://github.com/dellius-alexander/responsive_web_design.git;
                                 ls -lia ../;
                                 ls -lia;
                                 '''
