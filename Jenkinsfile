@@ -53,6 +53,11 @@ pipeline{
             agent {
                 docker { image 'registry.dellius.app/cypress/custom:v5.4.0'}
             }
+            steps{
+                sh '''
+                ls -lia
+                '''
+            }
         } // End of Testing stage()
     } // End of Main stages
 }
