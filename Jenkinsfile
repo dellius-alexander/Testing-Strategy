@@ -24,7 +24,7 @@ pipeline{
                                 env;
                                 '''
                                 // find the dockerfile
-                                cypress_dockerfile = '$(find . -type f -name "cypress.Dockerfile")'
+                                cypress_dockerfile = 'cypress.Dockerfile'
                                 // build the cypress test image
                                 cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
                                 // Login to private container registry:
@@ -48,6 +48,7 @@ pipeline{
                                 '''
                                 throw e
                             }
+                            cleanWs()
                         } // End of Script block
                     }
                 }
