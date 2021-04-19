@@ -14,7 +14,7 @@ pipeline{
                         script {
                             def www_image
                             git 'https://github.com/dellius-alexander/responsive_web_design.git'
-                            step('Building Webserver Image...') {
+                            step {
                                 def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
                                 www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
                                 // docker.withRegistry("https://registry.dellius.app", "${PRIVATE_CNTR_REGISTRY}")
