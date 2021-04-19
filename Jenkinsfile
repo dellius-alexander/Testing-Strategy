@@ -11,7 +11,7 @@ pipeline{
             parallel { // parallel build stages
                 stage('Parallel Build Webserver Image'){
                     steps {
-                        dir("responsive_web_design"){
+                        //dir("responsive_web_design"){
                             cleanWs()
                             script {
                                 def www_image
@@ -39,7 +39,7 @@ pipeline{
                                 }
                             } // End of Scrit block
                             cleanWs()
-                        }
+                        // } // End of dir()
                     }
                 }
                 // // Building Cypress Image...
