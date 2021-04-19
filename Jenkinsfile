@@ -13,7 +13,6 @@ pipeline{
                     steps {
                         script {
                             def www_image
-                            def 
                             git 'https://github.com/dellius-alexander/responsive_web_design.git'
                             def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
                             www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
