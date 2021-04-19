@@ -10,8 +10,9 @@ pipeline{
         stage('Build Test Images...'){
             parallel { // parallel build stages
                 stage('Build Webserver Image'){
-                    dir("responsive_web_design"){
-                        steps {
+
+                    steps {
+                        dir("responsive_web_design"){
                             cleanWs()
                             script {
                                 def www_image
