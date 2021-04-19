@@ -15,6 +15,7 @@ RUN mkdir -p /home/cypress/e2e && \
 WORKDIR  /home/cypress/e2e
 ENV __CYPRESS_TESTS__=/home/cypress/e2e/cypress/integration/
 ENV __CYPRESS_DIR__=/home/cypress/e2e/cypress
+
 # avoid too many progress messages
 # https://github.com/cypress-io/cypress/issues/1243
 ENV CI=1
