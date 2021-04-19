@@ -55,7 +55,6 @@ pipeline{
             }
             steps{
                 sh '''
-                /bin/bash
                 '''
             }
         } // End of Testing stage()
