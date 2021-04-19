@@ -9,7 +9,7 @@ pipeline{
     stages {
         stage('Build Test Images...'){
             parallel { // parallel build stages
-                stage('Build Webserver Image'){
+                stage('Parallel Build Image'){
 
                     steps {
                         dir("responsive_web_design"){
