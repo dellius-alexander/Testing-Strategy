@@ -95,7 +95,7 @@ RUN printf "\nPachage.json file: \n\n" \
 &&  printf "\nCypress.json file: \n\n${__CYPRESS_JSON__}\n"
 RUN env
 RUN printf "\nCurrent Directory: \n${pwd}\n\nObjects in current directory: \n\n" \
-&& ls -lia ${pwd} && printf "\n\nRoot directory: \n\n" && ls -lia
+&& ls -lia ${PWD} && printf "\n\nRoot directory: \n\n" && ls -lia
 #
 # cypress run command
 CMD [ "cypress", "run" ]
