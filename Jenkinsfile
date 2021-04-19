@@ -14,7 +14,6 @@ pipeline{
                         script {
                             def www_image
                             git 'https://github.com/dellius-alexander/responsive_web_design.git'
-                            step {
                                 def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
                                 www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
                                 // docker.withRegistry("https://registry.dellius.app", "${PRIVATE_CNTR_REGISTRY}")
@@ -25,6 +24,7 @@ pipeline{
                                     docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
                                     docker tag hyfi_webserver:${BUILD_ID} registry.dellius.app/hyfi_webserver:v1.19.3;
                                     docker push registry.dellius.app/hyfi_webserver:v1.19.3;
+                                    echo "Intermediate build result: ${currentBuild.result};
                                     '''
                                 }
                                 catch(e){
@@ -33,11 +33,6 @@ pipeline{
                                     '''
                                     throw e
                                 }
-
-                            }
-                            // step('Pushing Webserver image to private repo...'){
-                                //www_image.push()
-                            // }
                         }
                     }
                 }
@@ -53,9 +48,6 @@ pipeline{
                 //                 docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0
                 //                 docker push registry.dellius.app/cypress/custom:v5.4.0
                 //                 '''              
-                //             // }
-                //             // step('Pushing Cypress image to private repo...'){
-                //                 //cypress_image.push()
                 //             // }
                 //         }
                 //     }
