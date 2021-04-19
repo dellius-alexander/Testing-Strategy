@@ -46,7 +46,7 @@ pipeline{
                 stage('Building Cypress Image'){
                     steps {
                         dir("cypress_test"){
-                            cleanWs()
+                            //cleanWs()
                             script {
                                 sh 'ls -lia'
                                 def cypress_image
