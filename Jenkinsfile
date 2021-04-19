@@ -1,7 +1,7 @@
   
 pipeline{
     agent any
-    environment {
+    environment { // Define some environment variables
         // DOCKER_CERT_PATH is automatically picked up by the Docker client
         // Usage: $DOCKER_CERT_PATH or $DOCKER_CERT_PATH_USR or $DOCKER_CERT_PATH_PSW
         DOCKER_CERT_PATH = credentials('PRIVATE_CNTR_REGISTRY')
@@ -70,6 +70,9 @@ pipeline{
                     registry.dellius.app/cypress/custom:v5.4.0  \
                     run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/*"
                     '''
+                    sh '''
+                    echo "Tests passed successfully......";
+                    '''
                 }
                 catch(e){
                     sh '''
@@ -80,7 +83,7 @@ pipeline{
             }
         } // End of Testing stage()
         stage('Deploy Webservice to Prod...'){
-            
+
         }
     } // End of Main stages
 }
