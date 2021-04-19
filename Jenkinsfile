@@ -55,7 +55,7 @@ pipeline{
             }
             steps{
                 sh '''
-                cypress run --headless  --spec "cypress_tests/**/*";
+                cypress run --headless  --spec "$(find -type d -name 'cypress_tests')/*";
                 '''
                 // sh '''
                 // docker run --rm --name cypress registry.dellius.app/cypress/custom:v5.4.0 
