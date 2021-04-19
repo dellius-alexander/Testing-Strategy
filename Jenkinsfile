@@ -50,12 +50,12 @@ pipeline{
             } // End of steps block
         } // End of Build Test images stage()
         stage('Testing image cypress/custom:v5.4.0'){ // Testing stage()
-            // agent {
-            //     docker { image 'registry.dellius.app/cypress/custom:v5.4.0'}
-            // }
+            agent {
+                docker { image 'registry.dellius.app/cypress/custom:v5.4.0'}
+            }
             steps{
                 sh '''
-                docker run --rm -it --name cypress registry.dellius.app/cypress/custom:v5.4.0 /bin/bash
+                cypress run --headless  --spec "./cypress_tests/*";
                 '''
             }
         } // End of Testing stage()
