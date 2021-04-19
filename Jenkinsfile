@@ -18,17 +18,23 @@ pipeline{
                             def cypress_dockerfile
                             // try and catch errors
                             try{
+                                // Test environment...
                                 sh '''
                                 ls -lia;
                                 env;
                                 sleep 5;
                                 '''
+                                // find the dockerfile
                                 cypress_dockerfile = '$(find . -type f -name "cypress.Dockerfile")'
+                                // build the cypress test image
                                 cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
-                                //////////////////////
-                                // Push image to repo                         
+                                // Login to private container registry:
+                                //   - [ registry.dellius.app ]                  
                                 sh '''
                                 docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
+                                '''
+                                // Push image to private container registry
+                                sh '''
                                 docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
                                 docker push registry.dellius.app/cypress/custom:v5.4.0;
                                 echo "Intermediate build success......";
