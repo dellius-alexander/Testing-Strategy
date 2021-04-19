@@ -9,32 +9,32 @@ pipeline{
     stages {
         stage('Build Test Images...'){
             parallel { // parallel build stages
-                stage('Build Docker Image'){
-                    steps {
-                        script {
-                            def www_image
-                            git 'https://github.com/dellius-alexander/responsive_web_design.git'
-                            def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
-                            www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
-                            //////////////////////
-                            // Push image to repo
-                            try{
-                                sh '''
-                                docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
-                                docker tag hyfi_webserver:${BUILD_ID} registry.dellius.app/hyfi_webserver:v1.19.3;
-                                docker push registry.dellius.app/hyfi_webserver:v1.19.3;
-                                echo "Intermediate build success......;"
-                                '''
-                            }
-                            catch(e){
-                                sh '''
-                                echo "Intermediate build failure......";
-                                '''
-                                throw e
-                            }
-                        }
-                    }
-                }
+                // stage('Build Docker Image'){
+                //     steps {
+                //         script {
+                //             def www_image
+                //             git 'https://github.com/dellius-alexander/responsive_web_design.git'
+                //             def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
+                //             www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
+                //             //////////////////////
+                //             // Push image to repo
+                //             try{
+                //                 sh '''
+                //                 docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
+                //                 docker tag hyfi_webserver:${BUILD_ID} registry.dellius.app/hyfi_webserver:v1.19.3;
+                //                 docker push registry.dellius.app/hyfi_webserver:v1.19.3;
+                //                 echo "Intermediate build success......;"
+                //                 '''
+                //             }
+                //             catch(e){
+                //                 sh '''
+                //                 echo "Intermediate build failure......";
+                //                 '''
+                //                 throw e
+                //             }
+                //         }
+                //     }
+                // }
                 stage('Building Cypress Image'){
                     steps {
                         script {
