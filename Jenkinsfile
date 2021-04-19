@@ -8,51 +8,56 @@ pipeline{
     }
     stages {
         stage('Build Test Images...'){
-            parallel { // parallel build stages
-                // Building Cypress Image...
-                stage('Building Cypress Image'){
-                    steps {
-                        script {
-                            // Define a some variables
-                            def cypress_image
-                            def cypress_dockerfile
-                            // try and catch errors
-                            try{
-                                // Test environment...
-                                sh '''
-                                ls -lia;
-                                env;
-                                '''
-                                // find the dockerfile
-                                cypress_dockerfile = 'cypress.Dockerfile'
-                                // build the cypress test image
-                                cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
-                                // Login to private container registry:
-                                //   - [ registry.dellius.app ]                  
-                                sh '''
-                                docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
-                                '''
-                                // tag the cypress image to private repository
-                                sh '''
-                                docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
-                                '''
-                                // Push image to private container registry
-                                sh '''
-                                docker push registry.dellius.app/cypress/custom:v5.4.0;
-                                echo "Intermediate build success......";
-                                '''
-                            }
-                            catch(e){
-                                sh '''
-                                echo "Intermediate build failure......";
-                                '''
-                                throw e
-                            }
-                            cleanWs()
-                        } // End of Script block
+            steps {
+                script {
+                    // Define a some variables
+                    def cypress_image
+                    def cypress_dockerfile
+                    
+                    try{ // try and catch errors
+                        // Test environment...
+                        sh '''
+                        ls -lia;
+                        env;
+                        '''
+                        // name the dockerfile
+                        cypress_dockerfile = 'cypress.Dockerfile'
+                        // build the cypress test image
+                        cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
+                        // Login to private container registry:
+                        //   - [ registry.dellius.app ]                  
+                        sh '''
+                        docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
+                        '''
+                        // tag the cypress image to private repository
+                        sh '''
+                        docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
+                        '''
+                        // Push image to private container registry
+                        sh '''
+                        docker push registry.dellius.app/cypress/custom:v5.4.0;
+                        echo "Intermediate build success......";
+                        '''
                     }
-                }
-            } // End of parallel build stages
-        } // End of Build Test images stage
+                    catch(e){
+                        sh '''
+                        echo "Intermediate build failure......";
+                        '''
+                        throw e
+                    }
+                    cleanWs()
+                } // End of script block
+            } // End of steps block
+        } // End of Build Test images stage()
+        stage('Testing image hyfi_webserver:v1.19.3'){ // Testing stage()
+            agent {
+                docker { image 'registry.dellius.app/cypress/custom:v5.4.0'}
+            }
+            steps{
+                sh '''
+                run --project . --headless --browser firefox --spec '/home/cypress/e2e/cypress/integration/*'
+                '''
+            }
+        } // End of Testing stage()
     } // End of Main stages
 }
