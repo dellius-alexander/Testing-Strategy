@@ -91,22 +91,24 @@ pipeline{
             when {
                 environment name: 'BUILD_RESULTS', value: 'success'             
             }
-            steps{
-                try{
-                    sh '''
-                    kubectl get all -A;
-                    '''
-                    
-                }
-                catch(e){
-                    sh '''
-                    echo "Intermediate build failure......";
-                    export BUILD_RESULTS="failure";
-                    '''
-                    throw e
+            steps('Deploy Webservice to Cloud...'){
+                script{
+                    try{
+                        sh '''
+                        kubectl get all -A;
+                        '''
+                        
+                    }
+                    catch(e){
+                        sh '''
+                        echo "Intermediate build failure......";
+                        export BUILD_RESULTS="failure";
+                        '''
+                        throw e
+                    }
                 }
             }
-        }
+        } // End of Deploy to Prod stage()
     } // End of Main stages
 }
 //cypress run --project . --headless --browser firefox --spec '/home/cypress/e2e/cypress/integration/*'
