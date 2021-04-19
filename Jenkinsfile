@@ -67,7 +67,7 @@ pipeline{
                 -e PAGELOADTIMEOUT=60000 \
                 -w /home/cypress/e2e --entrypoint=cypress \
                 --name=cypress registry.dellius.app/cypress/custom:v5.4.0  \
-                run --headless --browser firefox --spec '/home/cypress/e2e/cypress/integration/*'
+                cypress run --headless --browser firefox --spec '/home/cypress/e2e/cypress/integration/*'
                 '''
             }
         } // End of Testing stage()
