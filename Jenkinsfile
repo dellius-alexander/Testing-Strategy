@@ -42,27 +42,29 @@ pipeline{
                 // Building Cypress Image...
                 stage('Building Cypress Image'){
                     steps {
-                        cleanWs()
-                        script {
-                            def cypress_image
-                            git 'https://github.com/dellius-alexander/Testing-Strategy.git'
-                            def cypress_dockerfile = 'cypress.Dockerfile'
-                            cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
-                            //////////////////////
-                            // Push image to repo  
-                            try{
-                                sh '''
-                                docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
-                                docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
-                                docker push registry.dellius.app/cypress/custom:v5.4.0;
-                                echo "Intermediate build success......";
-                                '''
-                            }
-                            catch(e){
-                                sh '''
-                                echo "Intermediate build failure......";
-                                '''
-                                throw e
+                        dir(cypress_test){
+                            cleanWs()
+                            script {
+                                def cypress_image
+                                git 'https://github.com/dellius-alexander/Testing-Strategy.git'
+                                def cypress_dockerfile = 'cypress.Dockerfile'
+                                cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
+                                //////////////////////
+                                // Push image to repo  
+                                try{
+                                    sh '''
+                                    docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
+                                    docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
+                                    docker push registry.dellius.app/cypress/custom:v5.4.0;
+                                    echo "Intermediate build success......";
+                                    '''
+                                }
+                                catch(e){
+                                    sh '''
+                                    echo "Intermediate build failure......";
+                                    '''
+                                    throw e
+                                }
                             }
                         }
                     }
