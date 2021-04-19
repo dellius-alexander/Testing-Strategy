@@ -10,7 +10,6 @@ pipeline{
         stage('Build Test Images...'){
             parallel { // parallel build stages
                 stage('Parallel Build Webserver Image'){
-
                     steps {
                         dir("responsive_web_design"){
                             cleanWs()
@@ -20,6 +19,11 @@ pipeline{
                                 // git clone https://github.com/dellius-alexander/responsive_web_design.git;
                                 // cd responsive_web_design;
                                 // '''
+                                sh '''
+                                ls -lia;
+                                cd responsive_web_design;
+                                ls -lia;
+                                '''
                                 def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
                                 www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
                                 //////////////////////
@@ -38,41 +42,40 @@ pipeline{
                                     '''
                                     throw e
                                 }
-                            }
+                            } // End of Scrit block
                         }
                     }
                 }
-                // Building Cypress Image...
-                stage('Building Cypress Image'){
-                    steps {
-                        // dir("cypress_test"){
-                            //cleanWs()
-                            script {
-                                sh 'ls -lia'
-                                def cypress_image
-                                //git 'https://github.com/dellius-alexander/Testing-Strategy.git'
-                                def cypress_dockerfile = '$(find . -type f -name "cypress.Dockerfile")'
-                                cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
-                                //////////////////////
-                                // Push image to repo  
-                                try{
-                                    sh '''
-                                    docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
-                                    docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
-                                    docker push registry.dellius.app/cypress/custom:v5.4.0;
-                                    echo "Intermediate build success......";
-                                    '''
-                                }
-                                catch(e){
-                                    sh '''
-                                    echo "Intermediate build failure......";
-                                    '''
-                                    throw e
-                                }
-                            }
-                        // } // cypress_test dir
-                    }
-                }
+                // // Building Cypress Image...
+                // stage('Building Cypress Image'){
+                //     steps {
+                //         // dir("cypress_test"){
+                //             //cleanWs()
+                //             script {
+                //                 sh 'ls -lia'
+                //                 def cypress_image
+                //                 def cypress_dockerfile = '$(find . -type f -name "cypress.Dockerfile")'
+                //                 cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
+                //                 //////////////////////
+                //                 // Push image to repo  
+                //                 try{
+                //                     sh '''
+                //                     docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
+                //                     docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
+                //                     docker push registry.dellius.app/cypress/custom:v5.4.0;
+                //                     echo "Intermediate build success......";
+                //                     '''
+                //                 }
+                //                 catch(e){
+                //                     sh '''
+                //                     echo "Intermediate build failure......";
+                //                     '''
+                //                     throw e
+                //                 }
+                //             } // End of Script block
+                //         // } // cypress_test dir
+                //     }
+                // }
             } // End of parallel build stages
         } // End of Build Test images stage
     } // End of Main stages
