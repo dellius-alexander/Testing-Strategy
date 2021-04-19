@@ -58,7 +58,7 @@ pipeline{
                 // cypress run --spec cypress_tests/
                 // '''
                 sh '''
-                docker run registry.dellius.app/cypress/custom:v5.4.0 cypress run --spec /home/cypress/e2e/cypress/integration/*
+                docker run registry.dellius.app/cypress/custom:v5.4.0 cypress run --headless --browser firefox --spec /home/cypress/e2e/cypress/integration/*
                 '''
             }
         } // End of Testing stage()
