@@ -61,8 +61,8 @@ RUN npm i -D cypress-wait-until --save-dev
 RUN npm install -D cypress-xpath --save-dev
 # unset NODE_OPTIONS # this is not the same as export NODE_OPTIONS=
 ENV NODE_OPTIONS='--max-http-header-size=1048576 --http-parser=legacy'
-ENV __PACKAGE_JSON__=$(find -type f -name "e2e/package.json")
-ENV __CYPRESS_JSON__=$(find -type f -name "e2e/cypress.json")
+ENV __PACKAGE_JSON__='$(find -type f -name "e2e/package.json")'
+ENV __CYPRESS_JSON__='$(find -type f -name "e2e/cypress.json")'
 # set debugging for dev purposes *************
 ENV DEBUG="cypress:* cypress run" 
 RUN printf "node version:    $(node -v)\n"
