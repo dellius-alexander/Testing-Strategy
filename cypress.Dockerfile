@@ -61,8 +61,8 @@ RUN npm i -D cypress-wait-until --save-dev
 RUN npm install -D cypress-xpath --save-dev
 # unset NODE_OPTIONS # this is not the same as export NODE_OPTIONS=
 ENV NODE_OPTIONS='--max-http-header-size=1048576 --http-parser=legacy'
-ENV __PACKAGE_JSON__='$(find -type f -name "e2e/package.json")'
-ENV __CYPRESS_JSON__='$(find -type f -name "e2e/cypress.json")'
+ENV __PACKAGE_JSON__="$(find ~+ -type f -name 'e2e/package.json')"
+ENV __CYPRESS_JSON__="$(find ~+ -type f -name 'e2e/cypress.json')"
 # set debugging for dev purposes *************
 ENV DEBUG="cypress:* cypress run" 
 RUN printf "node version:    $(node -v)\n"
@@ -88,10 +88,10 @@ COPY [ "./cypress_tests/", "${__CYPRESS_TESTS__}" ]
 RUN printf "\n\nContents of: ${__CYPRESS_TESTS__} \n\n" \
 && ls -lia ${__CYPRESS_TESTS__} && sleep 2
 # verify configuration files
-RUN printf "\n${__PACKAGE_JSON__}\n\n" \
-&& cat ${__CYPRESS_JSON__}\n
+RUN printf ("\n${__PACKAGE_JSON__}\n\n") \
+&& cat "${__CYPRESS_JSON__}"
 RUN printf "\nPachage.json file: \n\n" \
-&& cat ${__PACKAGE_JSON__}\n \
+&& cat "${__PACKAGE_JSON__}" \
 &&  printf "\nCypress.json file: \n\n${__CYPRESS_JSON__}\n"
 RUN env
 RUN printf "\nCurrent Directory: \n${pwd}\n\nObjects in current directory: \n\n" \
