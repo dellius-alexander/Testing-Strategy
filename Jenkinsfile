@@ -13,6 +13,7 @@ pipeline{
                     steps {
                         script {
                             def www_image
+                            def 
                             git 'https://github.com/dellius-alexander/responsive_web_design.git'
                             def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
                             www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
@@ -23,12 +24,12 @@ pipeline{
                                 docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
                                 docker tag hyfi_webserver:${BUILD_ID} registry.dellius.app/hyfi_webserver:v1.19.3;
                                 docker push registry.dellius.app/hyfi_webserver:v1.19.3;
-                                echo "Intermediate build result: ${currentBuild.result};"
+                                echo "Intermediate build success......;"
                                 '''
                             }
                             catch(e){
                                 sh '''
-                                echo "Intermediate build result: ${currentBuild.result}";
+                                echo "Intermediate build failure......";
                                 '''
                                 throw e
                             }
@@ -48,12 +49,12 @@ pipeline{
                                 sh '''
                                 docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
                                 docker push registry.dellius.app/cypress/custom:v5.4.0;
-                                echo "Intermediate build result: ${currentBuild.result}";
+                                echo "Intermediate build success......";
                                 '''
                             }
                             catch(e){
                                 sh '''
-                                echo "Intermediate build result: ${currentBuild.result}";
+                                echo "Intermediate build failure......";
                                 '''
                                 throw e
                             }
