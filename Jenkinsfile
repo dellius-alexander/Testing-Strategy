@@ -57,7 +57,7 @@ pipeline{
                 sh '''
                 ls -lia /home/cypress/e2e/cypress/integration;
                 cd /home/cypress/e2e/cypress/integration;
-                cypress run --project . --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/test4.spec.js";
+                cypress run --project "/home/cypress/e2e/cypress/integration" --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/test4.spec.js";
                 '''
             }
         } // End of Testing stage()
