@@ -25,14 +25,25 @@ pipeline{
                             // step('Building Webserver Image...') {
                                 def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
                                 www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
-                                // docker.withRegistry("https://registry.dellius.app", "${DOCKER_CERT_PATH}")
+                                // docker.withRegistry("https://registry.dellius.app", "${PRIVATE_CNTR_REGISTRY}")
                                 // www_image.push('v1.9.3')
                                 // Push image to repo
-                                sh '''
-                                docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW;
-                                docker tag hyfi_webserver:${BUILD_ID} registry.dellius.app/hyfi_webserver:v1.19.3;
-                                docker push registry.dellius.app/hyfi_webserver:v1.19.3;
-                                '''
+                                try{
+                                    sh 
+                                    '''
+                                    docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
+                                    docker tag hyfi_webserver:${BUILD_ID} registry.dellius.app/hyfi_webserver:v1.19.3;
+                                    docker push registry.dellius.app/hyfi_webserver:v1.19.3;
+                                    '''
+                                }
+                                catch(e){
+                                    sh
+                                    '''
+                                    echo "Intermediate build result: ${currentBuild.result}
+                                    '''
+                                    throw e
+                                }
+
                             // }
                             // step('Pushing Webserver image to private repo...'){
                                 //www_image.push()
