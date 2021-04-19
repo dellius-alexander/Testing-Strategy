@@ -84,8 +84,8 @@ RUN printf "\n\nContents of: /home/cypress/e2e \n\n" \
 && printf "\n\n"
 RUN printf "\n\nCypress Tests Directory: ${__CYPRESS_TESTS__}\n\n"
 COPY [ "./cypress_tests/", "${__CYPRESS_TESTS__}" ]
-ENV __PACKAGE_JSON__="$(find ~+ -type f -name 'package.json')"
-ENV __CYPRESS_JSON__="$(find ~+ -type f -name 'cypress.json')"
+ENV __PACKAGE_JSON__="/home/cypress/e2e/package.json"
+ENV __CYPRESS_JSON__="/home/cypress/e2e/cypress.json"
 RUN printf "\n\nContents of: ${__CYPRESS_TESTS__} \n\n" \
 && ls -lia ${__CYPRESS_TESTS__}
 # verify configuration files
