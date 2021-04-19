@@ -22,7 +22,6 @@ pipeline{
                                 sh '''
                                 ls -lia;
                                 env;
-                                sleep 5;
                                 '''
                                 // find the dockerfile
                                 cypress_dockerfile = '$(find . -type f -name "cypress.Dockerfile")'
