@@ -10,6 +10,7 @@ pipeline{
     // }
     environment {
         // DOCKER_CERT_PATH is automatically picked up by the Docker client
+        // Usage: $DOCKER_CERT_PATH or $DOCKER_CERT_PATH_USR or $DOCKER_CERT_PATH_PSW
         DOCKER_CERT_PATH = credentials('PRIVATE_CNTR_REGISTRY')
     }
     stages {
@@ -24,7 +25,7 @@ pipeline{
                             // step('Building Webserver Image...') {
                                 def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
                                 www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
-                                docker.withRegistry('https://registry.dellius.app','DOCKER_CERT_PATH')
+                                docker.withRegistry('https://registry.dellius.app', ${DOCKER_CERT_PATH})
                                 www_image.push('v1.9.3')
                                 // // Push image to repo
                                 // sh '''
