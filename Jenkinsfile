@@ -89,13 +89,17 @@ pipeline{
         } // End of Testing stage()
         stage('Deploy Webservice to Prod...'){
             when {
-                environment name: 'BUILD_RESULTS', value: 'success'             
+                environment name: 'BUILD_RESULTS', value: 'failure'             
             }
+
             steps('Deploy Webservice to Cloud...'){
                 script{
                     try{
                         sh '''
                         kubectl get all -A;
+                        git clone https://github.com/dellius-alexander/responsive_web_design.git;
+                        cd responsive_web_design;
+                        kubectl apply -f hyfi-k8s-deployment.yaml;
                         '''                        
                     }
                     catch(e){
