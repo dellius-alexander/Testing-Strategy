@@ -1,6 +1,9 @@
   
 pipeline{
     agent any
+    options {
+        ansiColor('xterm')
+    }
     environment { // Define some environment variables
         // DOCKER_CERT_PATH is automatically picked up by the Docker client
         // Usage: $DOCKER_CERT_PATH or $DOCKER_CERT_PATH_USR or $DOCKER_CERT_PATH_PSW
