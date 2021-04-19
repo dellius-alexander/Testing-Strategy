@@ -16,7 +16,10 @@ pipeline{
                             cleanWs()
                             script {
                                 def www_image
-                                git 'https://github.com/dellius-alexander/responsive_web_design.git'
+                                sh '''
+                                git clone https://github.com/dellius-alexander/responsive_web_design.git;
+                                cd $(find -type d -name "Testing-Strategy");
+                                '''
                                 def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
                                 www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
                                 //////////////////////
@@ -46,9 +49,10 @@ pipeline{
                             cleanWs()
                             script {
                                 def cypress_image
-                                sh ''' git clone https://github.com/dellius-alexander/Testing-Strategy.git
+                                sh ''' 
+                                git clone https://github.com/dellius-alexander/Testing-Strategy.git
                                 '''
-                                def cypress_dockerfile = '$(find -type f -name "cypress.Dockerfile")'
+                                def cypress_dockerfile = '$(find . -type f -name "cypress.Dockerfile")'
                                 cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
                                 //////////////////////
                                 // Push image to repo  
