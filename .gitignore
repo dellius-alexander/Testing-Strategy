@@ -1,6 +1,7 @@
 # Keep these directories & files
 !cypress/integration/cypress_tests/**
 !jenkins/init_jenkins.sh
+project.env
 # Ignore these files in local dev
 www.Dockerfile
 jenkins.Dockerfile

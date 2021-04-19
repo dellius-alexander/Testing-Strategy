@@ -19,7 +19,9 @@ pipeline{
                                 ls -lia ../;
                                 ls -lia;
                                 '''
-                                def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
+                                def www_dockerfile = sh '''
+                                $(find ~+ -type f -name "www.Dockerfile");
+                                '''
                                 www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
                                 //////////////////////
                                 // Push image to repo
