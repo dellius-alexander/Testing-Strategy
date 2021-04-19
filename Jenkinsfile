@@ -8,7 +8,7 @@ pipeline{
                     steps {
                         script {
                             def www_image
-                            docker.withRegistry('https://registry.dellius.app', 'PRIVATE_CNTR_REGISTRY')
+                            // docker.withRegistry('https://registry.dellius.app', 'PRIVATE_CNTR_REGISTRY')
                             git 'https://github.com/dellius-alexander/responsive_web_design.git'
                             step('Building Webserver Image...') {
                                 def www_dockerfile = 'www.Dockerfile'
@@ -24,7 +24,7 @@ pipeline{
                     steps {
                         script {
                             def cypress_image
-                            docker.withRegistry('https://registry.dellius.app', 'PRIVATE_CNTR_REGISTRY')
+                            // docker.withRegistry('https://registry.dellius.app', 'PRIVATE_CNTR_REGISTRY')
                             step('Building Cypress Test Image...') {
                                 def cypress_dockerfile = 'cypress.Dockerfile'
                                 cypress_image = docker.build("cypress/custom:5.4.0:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")                        
