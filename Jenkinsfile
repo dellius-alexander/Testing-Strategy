@@ -14,44 +14,51 @@ pipeline{
                         script {
                             def www_image
                             git 'https://github.com/dellius-alexander/responsive_web_design.git'
-                                def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
-                                www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
-                                // docker.withRegistry("https://registry.dellius.app", "${PRIVATE_CNTR_REGISTRY}")
-                                // www_image.push('v1.9.3')
-                                // Push image to repo
-                                try{
-                                    sh '''
-                                    docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
-                                    docker tag hyfi_webserver:${BUILD_ID} registry.dellius.app/hyfi_webserver:v1.19.3;
-                                    docker push registry.dellius.app/hyfi_webserver:v1.19.3;
-                                    echo "Intermediate build result: ${currentBuild.result};
-                                    '''
-                                }
-                                catch(e){
-                                    sh '''
-                                    echo "Intermediate build result: ${currentBuild.result}
-                                    '''
-                                    throw e
-                                }
+                            def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
+                            www_image = docker.build("hyfi_webserver:${env.BUILD_ID}", "-f ${www_dockerfile} .")
+                            //////////////////////
+                            // Push image to repo
+                            try{
+                                sh '''
+                                docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
+                                docker tag hyfi_webserver:${BUILD_ID} registry.dellius.app/hyfi_webserver:v1.19.3;
+                                docker push registry.dellius.app/hyfi_webserver:v1.19.3;
+                                echo "Intermediate build result: ${currentBuild.result};"
+                                '''
+                            }
+                            catch(e){
+                                sh '''
+                                echo "Intermediate build result: ${currentBuild.result}";
+                                '''
+                                throw e
+                            }
                         }
                     }
                 }
-                // stage('Building Cypress Image'){
-                //     steps {
-                //         script {
-                //             def cypress_image
-                //             // step('Building Cypress Test Image...') {
-                //                 def cypress_dockerfile = '$(find ~+ -type f -name "cypress.Dockerfile")'
-                //                 cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
-                //                 // Push image to repo          
-                //                 sh '''
-                //                 docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0
-                //                 docker push registry.dellius.app/cypress/custom:v5.4.0
-                //                 '''              
-                //             // }
-                //         }
-                //     }
-                // }
+                stage('Building Cypress Image'){
+                    steps {
+                        script {
+                            def cypress_image
+                            def cypress_dockerfile = '$(find ~+ -type f -name "cypress.Dockerfile")'
+                            cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
+                            //////////////////////
+                            // Push image to repo  
+                            try{
+                                sh '''
+                                docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
+                                docker push registry.dellius.app/cypress/custom:v5.4.0;
+                                echo "Intermediate build result: ${currentBuild.result}";
+                                '''
+                            }
+                            catch(e){
+                                sh '''
+                                echo "Intermediate build result: ${currentBuild.result}";
+                                '''
+                                throw e
+                            }
+                        }
+                    }
+                }
             } // End of parallel build stage
         }
     } // End of Main stages
