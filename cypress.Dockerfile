@@ -86,7 +86,7 @@ RUN printf "\n\nContents of: /home/cypress/e2e \n\n" \
 RUN printf "\n\nCypress Tests Directory: ${__CYPRESS_TESTS__}\n\n"
 COPY [ "./cypress_tests/", "${__CYPRESS_TESTS__}" ]
 RUN printf "\n\nContents of: ${__CYPRESS_TESTS__} \n\n" \
-&& ls -lia ${__CYPRESS_TESTS__} && sleep 2
+&& ls -lia ${__CYPRESS_TESTS__}
 # verify configuration files
 RUN printf ("\n${__PACKAGE_JSON__}\n\n") \
 && cat "${__CYPRESS_JSON__}"
@@ -94,8 +94,9 @@ RUN printf "\nPachage.json file: \n\n" \
 && cat "${__PACKAGE_JSON__}" \
 &&  printf "\nCypress.json file: \n\n${__CYPRESS_JSON__}\n"
 RUN env
-RUN printf "\nCurrent Directory: \n${pwd}\n\nObjects in current directory: \n\n" \
-&& ls -lia ${PWD} && printf "\n\nRoot directory: \n\n" && ls -lia
+RUN printf "\nCurrent Directory: \n${PWD}\n\nObjects in current directory: \n\n" \
+&& ls -lia ${PWD} \
+&& printf "\n\nRoot directory: \n\n" && ls -lia
 #
 # cypress run command
 CMD [ "cypress", "run" ]
