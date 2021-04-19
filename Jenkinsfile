@@ -12,13 +12,17 @@ pipeline{
                 // Building Cypress Image...
                 stage('Building Cypress Image'){
                     steps {
-                        cleanWs()
                         script {
-                            
+                            // Define a some variables
                             def cypress_image
                             def cypress_dockerfile
+                            // try and catch errors
                             try{
-                                sh 'ls -lia && env && sleep 5;'
+                                sh '''
+                                ls -lia;
+                                env;
+                                sleep 5;
+                                '''
                                 cypress_dockerfile = '$(find . -type f -name "cypress.Dockerfile")'
                                 cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
                                 //////////////////////
