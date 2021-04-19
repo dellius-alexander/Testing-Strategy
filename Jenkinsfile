@@ -42,12 +42,12 @@ pipeline{
                 // Building Cypress Image...
                 stage('Building Cypress Image'){
                     steps {
-                        dir(cypress_test){
+                        dir("cypress_test"){
                             cleanWs()
                             script {
                                 def cypress_image
                                 git 'https://github.com/dellius-alexander/Testing-Strategy.git'
-                                def cypress_dockerfile = 'cypress.Dockerfile'
+                                def cypress_dockerfile = '$(find -type f -name "cypress.Dockerfile")'
                                 cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
                                 //////////////////////
                                 // Push image to repo  
