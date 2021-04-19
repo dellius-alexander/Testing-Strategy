@@ -8,6 +8,7 @@ pipeline{
         // DOCKER_CERT_PATH is automatically picked up by the Docker client
         // Usage: $DOCKER_CERT_PATH or $DOCKER_CERT_PATH_USR or $DOCKER_CERT_PATH_PSW
         DOCKER_CERT_PATH = credentials('PRIVATE_CNTR_REGISTRY')
+        BUILD_RESULTS="failure"
     }
     stages {
         stage('Build Test Images...'){
@@ -40,11 +41,13 @@ pipeline{
                         sh '''
                         docker push registry.dellius.app/cypress/custom:v5.4.0;
                         echo "Intermediate build success......";
+                        export BUILD_RESULTS="success";
                         '''
                     }
                     catch(e){
                         sh '''
                         echo "Intermediate build failure......";
+                        export BUILD_RESULTS="failure";
                         '''
                         throw e
                     }
@@ -67,24 +70,43 @@ pipeline{
                         -e CYPRESS_RECORD_KEY="U2FyYWlAMjAwOQ==" \
                         -w /home/cypress/e2e --entrypoint=cypress \
                         registry.dellius.app/cypress/custom:v5.4.0  \
-                        run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/*"
+                        run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/test.spec.js"
                         '''
                         sh '''
                         echo "Tests passed successfully......";
+                        export BUILD_RESULTS="success";
                         '''
                     }
                     catch(e){
                         sh '''
                         echo "Intermediate build failure......";
+                        export BUILD_RESULTS="failure";
                         '''
                         throw e
                     }
                 }
             }
         } // End of Testing stage()
-        // stage('Deploy Webservice to Prod...'){
-
-        // }
+        stage('Deploy Webservice to Prod...'){
+            when {
+                environment name: 'BUILD_RESULTS', value: 'success'             
+            }
+            steps{
+                try{
+                    sh '''
+                    kubectl get all -A;
+                    '''
+                    
+                }
+                catch(e){
+                    sh '''
+                    echo "Intermediate build failure......";
+                    export BUILD_RESULTS="failure";
+                    '''
+                    throw e
+                }
+            }
+        }
     } // End of Main stages
 }
 //cypress run --project . --headless --browser firefox --spec '/home/cypress/e2e/cypress/integration/*'
