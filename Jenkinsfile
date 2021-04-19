@@ -67,7 +67,7 @@ pipeline{
                         -e CYPRESS_RECORD_KEY="U2FyYWlAMjAwOQ==" \
                         -w /home/cypress/e2e --entrypoint=cypress \
                         registry.dellius.app/cypress/custom:v5.4.0  \
-                        run --headless --record --parallel --browser firefox --spec "/home/cypress/e2e/cypress/integration/*"
+                        run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/*"
                         '''
                         sh '''
                         echo "Tests passed successfully......";
