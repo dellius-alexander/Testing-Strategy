@@ -45,7 +45,7 @@ pipeline{
                 // Building Cypress Image...
                 stage('Building Cypress Image'){
                     steps {
-                        dir("cypress_test"){
+                        // dir("cypress_test"){
                             //cleanWs()
                             script {
                                 sh 'ls -lia'
@@ -70,7 +70,7 @@ pipeline{
                                 //     throw e
                                 // }
                             }
-                        } // cypress
+                        // } // cypress
                     }
                 }
             } // End of parallel build stages
