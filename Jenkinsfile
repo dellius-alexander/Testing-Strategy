@@ -49,7 +49,7 @@ pipeline{
                 } // End of script block
             } // End of steps block
         } // End of Build Test images stage()
-        stage('Testing image hyfi_webserver:v1.19.3'){ // Testing stage()
+        stage('Testing image cypress/custom:v5.4.0'){ // Testing stage()
             agent {
                 docker { image 'registry.dellius.app/cypress/custom:v5.4.0'}
             }
