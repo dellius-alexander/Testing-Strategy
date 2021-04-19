@@ -1,4 +1,4 @@
-# escape=\ (backslash)
+# escape=\
 #
 FROM cypress/included:5.4.0
 USER root
