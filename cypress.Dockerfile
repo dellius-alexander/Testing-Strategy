@@ -48,7 +48,7 @@ RUN cypress info
 
 # give every user read access to the "/root" folder where the binary is cached
 # we really only need to worry about the top folder, fortunately
-RUN ls -la /root
+RUN ls -la 
 RUN chmod 755 /root
 # always grab the latest NPM and Yarn
 # otherwise the base image might have old versions
@@ -61,8 +61,8 @@ RUN npm i -D cypress-wait-until --save-dev
 RUN npm install -D cypress-xpath --save-dev
 # unset NODE_OPTIONS # this is not the same as export NODE_OPTIONS=
 ENV NODE_OPTIONS='--max-http-header-size=1048576 --http-parser=legacy'
-ENV __PACKAGE_JSON__=/home/cypress/e2e/package.json
-ENV __CYPRESS_JSON__=/home/cypress/e2e/cypress.json
+ENV __PACKAGE_JSON__=$(find -type f -name "e2e/package.json")
+ENV __CYPRESS_JSON__=$(find -type f -name "e2e/cypress.json")
 # set debugging for dev purposes *************
 ENV DEBUG="cypress:* cypress run" 
 RUN printf "node version:    $(node -v)\n"
@@ -95,7 +95,7 @@ RUN printf "\nPachage.json file: \n\n" \
 &&  printf "\nCypress.json file: \n\n${__CYPRESS_JSON__}\n"
 RUN env
 RUN printf "\nCurrent Directory: \n${pwd}\n\nObjects in current directory: \n\n" \
-&& ls -lia ${pwd} && printf "\n\nRoot directory: \n\n" && ls -lia /
+&& ls -lia ${pwd} && printf "\n\nRoot directory: \n\n" && ls -lia
 #
 # cypress run command
 CMD [ "cypress", "run" ]
