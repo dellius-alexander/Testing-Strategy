@@ -58,7 +58,7 @@ pipeline{
                 // cypress run --spec "$(find -type d -name 'cypress_tests')/*";
                 // '''
                 sh '''
-                docker run --name cypress registry.dellius.app/cypress/custom:v5.4.0 
+                docker run registry.dellius.app/cypress/custom:v5.4.0 /bin/bash
                 '''
             }
         } // End of Testing stage()
