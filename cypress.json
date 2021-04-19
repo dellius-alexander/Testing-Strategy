@@ -1,4 +1,5 @@
 {
     "pageLoadTimeout": 90000,
-    "baseUrl": "http://host.docker.internal:32609"
+    "baseUrl": "https://dellius-alexander.github.io/responsive_web_design/"
+
 }
