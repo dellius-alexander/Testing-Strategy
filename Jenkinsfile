@@ -13,7 +13,7 @@ pipeline{
                     steps {
                         script {
                             def www_image
-                            //docker.withRegistry('https://registry.dellius.app', 'PRIVATE_CNTR_REGISTRY')
+                            docker.withRegistry('https://registry.dellius.app', "${PRIVATE_CNTR_REGISTRY}')
                             git 'https://github.com/dellius-alexander/responsive_web_design.git'
                             // step('Building Webserver Image...') {
                                 def www_dockerfile = '$(find ~+ -type f -name "www.Dockerfile")'
