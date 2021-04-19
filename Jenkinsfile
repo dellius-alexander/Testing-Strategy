@@ -55,9 +55,7 @@ pipeline{
             }
             steps{
                 sh '''
-                ls -lia /home/cypress/e2e/cypress/integration;
-                cd /home/cypress/e2e/cypress/integration;
-                cypress run --headless --spec "/home/cypress/e2e/cypress/integration/test4.spec.js";
+                /bin/bash
                 '''
             }
         } // End of Testing stage()
