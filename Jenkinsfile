@@ -70,7 +70,7 @@ pipeline{
                         -e CYPRESS_RECORD_KEY="U2FyYWlAMjAwOQ==" \
                         -w /home/cypress/e2e --entrypoint=cypress \
                         registry.dellius.app/cypress/custom:v5.4.0  \
-                        run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/test.spec.js"
+                        run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/test4.spec.js"
                         '''
                         sh '''
                         echo "Tests passed successfully......";
@@ -96,8 +96,7 @@ pipeline{
                     try{
                         sh '''
                         kubectl get all -A;
-                        '''
-                        
+                        '''                        
                     }
                     catch(e){
                         sh '''
