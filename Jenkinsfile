@@ -1,6 +1,16 @@
   
 pipeline{
     agent any
+      tools {
+    // a bit ugly because there is no `@Symbol` annotation for the DockerTool
+    // see the discussion about this in PR 77 and PR 52: 
+    // https://github.com/jenkinsci/docker-commons-plugin/pull/77#discussion_r280910822
+    // https://github.com/jenkinsci/docker-commons-plugin/pull/52
+    'org.jenkinsci.plugins.docker.commons.tools.DockerTool' '20.10.3'
+  }
+  environment {
+    DOCKER_CERT_PATH = credentials('PRIVATE_CNTR_REGISTRY')
+  }
     stages {
         stage('Build Test Images...'){
             parallel { // parallel build stages
@@ -16,7 +26,6 @@ pipeline{
                                 // Push image to repo
                                 sh '''
                                 docker tag hyfi_webserver:${BUILD_ID} registry.dellius.app/hyfi_webserver:v1.19.3
-                                docker login -u dalexander -p ${PRIVATE_CNTR_REGISTRY}registry.dellius.app 
                                 docker push registry.dellius.app/hyfi_webserver:v1.19.3
                                 '''
                             // }
