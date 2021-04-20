@@ -13,14 +13,6 @@ pipeline{
         GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
     }
     stages {
-        stage('Check environment'){
-            steps{
-                sh '''
-                echo "Build Results: $BUILD_RESULTS";
-                echo "Working with Branch: $GIT_BRANCH";
-                '''
-            }
-        }
         stage('Build Test Images...'){
             steps {
                 script {
@@ -98,10 +90,18 @@ pipeline{
                 } // End of script block
             } // Enc of steps()
         } // End of Testing stage()
+        stage('Check environment'){
+            steps{
+                sh '''
+                echo "Build Results: $BUILD_RESULTS";
+                echo "Working with Branch: $GIT_BRANCH";
+                '''
+            }
+        }
         stage('Deploy Webservice to Prod...'){
             when {
-                environment name: 'BUILD_RESULTS', value: 'failure'
                 branch 'main'
+                environment name: 'BUILD_RESULTS', value: 'success'
             }
             steps('Deploy Webservice to Cloud...'){
                 script{
