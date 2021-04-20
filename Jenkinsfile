@@ -132,4 +132,10 @@ pipeline{
             } // Enc of steps()            
         } // End of Deploy to Prod stage()
     } // End of Main stages
+    post {
+        always {
+            archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
+            junit 'build/reports/**/*.xml'
+        }
+    }
 } // End of pipeline
