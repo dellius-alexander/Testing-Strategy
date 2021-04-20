@@ -51,7 +51,7 @@ pipeline{
                         '''
                         throw e
                     }
-                    cleanWs()
+                    cleanWs() // clean up workspace post-Build
                 } // End of script block
             } // End of steps block
         } // End of Build Test images stage()
@@ -84,19 +84,18 @@ pipeline{
                         '''
                         throw e
                     }
+                    cleanWs() // clean up workspace post-Testing
                 }
             }
         } // End of Testing stage()
         stage('Deploy Webservice to Prod...'){
             when {
-                environment name: 'BUILD_RESULTS', value: 'failure'             
+                environment name: 'BUILD_RESULTS', value: 'failure'
             }
-
             steps('Deploy Webservice to Cloud...'){
                 script{
                     try{
                         sh '''
-                        kubectl get all -A;
                         git clone https://github.com/dellius-alexander/responsive_web_design.git;
                         cd responsive_web_design;
                         kubectl apply -f hyfi-k8s-deployment.yaml;
@@ -111,7 +110,7 @@ pipeline{
                     }
                 }
             }
-            cleanWs()
+            cleanWs() // clean up workspace post-Deploy
         } // End of Deploy to Prod stage()
     } // End of Main stages
 }
