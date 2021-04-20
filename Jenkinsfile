@@ -4,13 +4,23 @@ pipeline{
     options {
         ansiColor('xterm')
     }
+
     environment { // Define some environment variables
         // DOCKER_CERT_PATH is automatically picked up by the Docker client
         // Usage: $DOCKER_CERT_PATH or $DOCKER_CERT_PATH_USR or $DOCKER_CERT_PATH_PSW
         DOCKER_CERT_PATH = credentials('PRIVATE_CNTR_REGISTRY')
         BUILD_RESULTS="failure"
+        GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
     }
     stages {
+        stage('Check environment'){
+            steps{
+                sh '''
+                echo "Build Results: $BUILD_RESULTS";
+                echo "Working with Branch: $GIT_BRANCH";
+                '''
+            }
+        }
         stage('Build Test Images...'){
             steps {
                 script {
@@ -91,6 +101,7 @@ pipeline{
         stage('Deploy Webservice to Prod...'){
             when {
                 environment name: 'BUILD_RESULTS', value: 'failure'
+                branch 'main'
             }
             steps('Deploy Webservice to Cloud...'){
                 script{
