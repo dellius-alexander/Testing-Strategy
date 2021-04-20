@@ -53,7 +53,7 @@ pipeline{
                     }
                     cleanWs() // clean up workspace post-Build
                 } // End of script block
-            } // End of steps block
+            } // Enc of steps()
         } // End of Build Test images stage()
         stage('Testing image cypress/custom:v5.4.0'){ // Testing stage()
             steps('Testing Responsive Web Design Webserver'){
@@ -85,8 +85,8 @@ pipeline{
                         throw e
                     }
                     cleanWs() // clean up workspace post-Testing
-                }
-            }
+                } // End of script block
+            } // Enc of steps()
         } // End of Testing stage()
         stage('Deploy Webservice to Prod...'){
             when {
@@ -108,9 +108,9 @@ pipeline{
                         '''
                         throw e
                     }
-                }
-            }
-            cleanWs() // clean up workspace post-Deploy
+                    cleanWs() // clean up workspace post-Deploy
+                } // End of script block
+            } // Enc of steps()            
         } // End of Deploy to Prod stage()
     } // End of Main stages
 }
