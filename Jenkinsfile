@@ -52,7 +52,7 @@ pipeline{
                     catch(e){
                         env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        echo "Intermediate build ${env.BUILD_RESULTS}......";
                         '''
                         throw e
                     }
