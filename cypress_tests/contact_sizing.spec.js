@@ -9,6 +9,7 @@ describe("Some describe", () => {
       })
       it ('checks for size', () => {
         cy.contains('Contact')
+        
     })
     });
   });
