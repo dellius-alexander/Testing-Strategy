@@ -4,13 +4,10 @@ pipeline{
     options {
         ansiColor('xterm')
     }
-
     environment { // Define some environment variables
         // DOCKER_CERT_PATH is automatically picked up by the Docker client
         // Usage: $DOCKER_CERT_PATH or $DOCKER_CERT_PATH_USR or $DOCKER_CERT_PATH_PSW
         DOCKER_CERT_PATH = credentials('PRIVATE_CNTR_REGISTRY')
-        
-
     }
     stages {
         stage('Build Test Images...'){
@@ -133,9 +130,9 @@ pipeline{
     } // End of Main stages
     post { // Notifications on failures
         failure {
-            emailext to: "${env.GIT_AUTHOR_EMAIL}",
+            emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : #${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
+                to: "${env.GIT_AUTHOR_EMAIL}",
                 subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${env.currentBuild.fullDisplayName} : Results -> ${env.currentBuild.currentResult}",
-                body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : #${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
                 recipientProviders: [developers(), requestor()]
         }
     }
