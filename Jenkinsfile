@@ -132,10 +132,11 @@ pipeline{
             } // Enc of steps()            
         } // End of Deploy to Prod stage()
     } // End of Main stages
-    post {
-        always {
-            archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
-            junit 'build/reports/**/*.xml'
+    post { // Recording tests and artifacts
+        failure {
+            mail to: "${env.GIT_AUTHOR_EMAIL}",
+                subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${env.currentBuild.fullDisplayName} : Results -> ${env.currentBuild.currentResult}",
+                body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : #${env.BUILD_NUMBER}  : REsults URL: ${env.RUN_DISPLAY_URL}"
         }
     }
 } // End of pipeline
