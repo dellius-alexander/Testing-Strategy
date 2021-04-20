@@ -1,5 +1,5 @@
 {
     "pageLoadTimeout": 90000,
-    "baseUrl": "https://hyfi.dellius.app/"
+    "baseUrl": "http://10.0.0.40:32001/"
 
 }
