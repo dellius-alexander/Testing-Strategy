@@ -12,6 +12,7 @@ describe('Project Plan Form', () => {
       cy.get('#email').type('johndoe@gmail.com')
       cy.get('#phone').type('6781234567')
       cy.get('#organization').type('Research Group Organization')
+      cy.get('#organization').click('Research Group Organization')
 
     })
   })
