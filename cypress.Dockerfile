@@ -13,6 +13,7 @@ RUN cd /home/cypress
 RUN mkdir -p /home/cypress/e2e && \
     cd /home/cypress/e2e 
 WORKDIR  /home/cypress/e2e
+# test dir and cypress dir
 ENV __CYPRESS_TESTS__=/home/cypress/e2e/cypress/integration/
 ENV __CYPRESS_DIR__=/home/cypress/e2e/cypress
 
@@ -90,7 +91,7 @@ ENV __CYPRESS_JSON__="/home/cypress/e2e/cypress.json"
 RUN printf "\n\nContents of: ${__CYPRESS_TESTS__} \n\n" \
 && ls -lia ${__CYPRESS_TESTS__}
 # verify configuration files
-RUN printf "\n${__PACKAGE_JSON__}\n\n" \
+RUN printf "\n${__PACKAGE_JSON__}\n\n"  \
 && cat "${__CYPRESS_JSON__}"
 RUN printf "\nPachage.json file: \n\n" \
 && cat "${__PACKAGE_JSON__}" \
