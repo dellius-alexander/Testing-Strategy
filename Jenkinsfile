@@ -111,6 +111,7 @@ pipeline{
                     }
                 }
             }
+            cleanWs()
         } // End of Deploy to Prod stage()
     } // End of Main stages
 }
