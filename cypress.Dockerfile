@@ -13,6 +13,7 @@ RUN cd /home/cypress
 RUN mkdir -p /home/cypress/e2e && \
     cd /home/cypress/e2e 
 WORKDIR  /home/cypress/e2e
+# cypress test dir & cypress root dir
 ENV __CYPRESS_TESTS__=/home/cypress/e2e/cypress/integration/
 ENV __CYPRESS_DIR__=/home/cypress/e2e/cypress
 
