@@ -42,14 +42,15 @@ pipeline{
                         // Push image to private container registry
                         sh '''
                         docker push registry.dellius.app/cypress/custom:v5.4.0;
-                        env.BUILD_RESULTS="success";
+                        '''
+                        env.BUILD_RESULTS="success"
+                        sh '''
                         echo "Intermediate build ${env.BUILD_RESULTS}......";
-                        
                         '''
                     }
                     catch(e){
+                        env.BUILD_RESULTS="failure"
                         sh '''
-                        env.BUILD_RESULTS="failure";
                         echo "Intermediate build ${env.BUILD_RESULTS}......";
                         '''
                         throw e
@@ -75,14 +76,14 @@ pipeline{
                         registry.dellius.app/cypress/custom:v5.4.0  \
                         run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/*";
                         '''
+                        env.BUILD_RESULTS="success"
                         sh '''
-                        env.BUILD_RESULTS="success";
                         echo "Intermediate build ${env.BUILD_RESULTS}......";
                         '''
                     }
                     catch(e){
+                        env.BUILD_RESULTS="failure"
                         sh '''
-                        env.BUILD_RESULTS="failure";
                         echo "Intermediate build ${env.BUILD_RESULTS}......";
                         '''
                         throw e
@@ -107,18 +108,20 @@ pipeline{
             }
             steps('Deploy Webservice to Cloud...'){
                 script{
-                    try{
+                    try{                        
                         sh '''
                         git clone https://github.com/dellius-alexander/responsive_web_design.git;
                         cd responsive_web_design;
                         kubectl apply -f hyfi-k8s-deployment.yaml;
-                        env.BUILD_RESULTS="success";
+                        '''
+                        env.BUILD_RESULTS="success"
+                        sh '''
                         echo "Intermediate build ${env.BUILD_RESULTS}......";
-                        '''                        
+                        '''                      
                     }
                     catch(e){
+                        env.BUILD_RESULTS="failure"
                         sh '''
-                        env.BUILD_RESULTS="failure";
                         echo "Intermediate build ${env.BUILD_RESULTS}......";
                         '''
                         throw e
