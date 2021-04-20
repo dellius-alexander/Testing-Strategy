@@ -130,9 +130,9 @@ pipeline{
     } // End of Main stages
     post { // Notifications on failures
         failure {
-            emailext to: "${env.GIT_AUTHOR_EMAIL}",
+            emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : #${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
+                to: "${env.GIT_AUTHOR_EMAIL}",
                 subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${env.currentBuild.fullDisplayName} : Results -> ${env.currentBuild.currentResult}",
-                body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : #${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
                 recipientProviders: [developers(), requestor()]
         }
     }
