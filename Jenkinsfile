@@ -97,7 +97,7 @@ pipeline{
             steps{
                 sh '''
                 echo "Build Results: $BUILD_RESULTS";
-                echo "Working with Branch: $GIT_BRANCH";
+                echo "Working with Branch: ${env.GIT_BRANCH}";
                 '''
                 
             }
