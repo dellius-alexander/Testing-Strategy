@@ -10,7 +10,7 @@ pipeline{
         // Usage: $DOCKER_CERT_PATH or $DOCKER_CERT_PATH_USR or $DOCKER_CERT_PATH_PSW
         DOCKER_CERT_PATH = credentials('PRIVATE_CNTR_REGISTRY')
         BUILD_RESULTS="failure"
-        GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+
     }
     stages {
         stage('Build Test Images...'){
@@ -43,13 +43,13 @@ pipeline{
                         sh '''
                         docker push registry.dellius.app/cypress/custom:v5.4.0;
                         echo "Intermediate build success......";
-                        export BUILD_RESULTS="success";
+                        BUILD_RESULTS="success";
                         '''
                     }
                     catch(e){
                         sh '''
                         echo "Intermediate build failure......";
-                        export BUILD_RESULTS="failure";
+                        BUILD_RESULTS="failure";
                         '''
                         throw e
                     }
@@ -76,13 +76,13 @@ pipeline{
                         '''
                         sh '''
                         echo "Tests passed successfully......";
-                        export BUILD_RESULTS="success";
+                        BUILD_RESULTS="success";
                         '''
                     }
                     catch(e){
                         sh '''
                         echo "Intermediate build failure......";
-                        export BUILD_RESULTS="failure";
+                        BUILD_RESULTS="failure";
                         '''
                         throw e
                     }
@@ -90,12 +90,13 @@ pipeline{
                 } // End of script block
             } // Enc of steps()
         } // End of Testing stage()
-        stage('Check environment'){
+        stage('Check environment'){ // check the status of environment variables
             steps{
                 sh '''
                 echo "Build Results: $BUILD_RESULTS";
                 echo "Working with Branch: $GIT_BRANCH";
                 '''
+                
             }
         }
         stage('Deploy Webservice to Prod...'){
@@ -110,12 +111,13 @@ pipeline{
                         git clone https://github.com/dellius-alexander/responsive_web_design.git;
                         cd responsive_web_design;
                         kubectl apply -f hyfi-k8s-deployment.yaml;
+                        BUILD_RESULTS="success";
                         '''                        
                     }
                     catch(e){
                         sh '''
                         echo "Intermediate build failure......";
-                        export BUILD_RESULTS="failure";
+                        BUILD_RESULTS="failure";
                         '''
                         throw e
                     }
