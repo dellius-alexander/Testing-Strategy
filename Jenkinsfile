@@ -52,7 +52,7 @@ pipeline{
                     catch(e){
                         env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "Intermediate build ${env.BUILD_RESULTS}......";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                         throw e
                     }
@@ -79,13 +79,13 @@ pipeline{
                         '''
                         env.BUILD_RESULTS="success"
                         sh '''
-                        echo "Intermediate build ${env.BUILD_RESULTS}......";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                     }
                     catch(e){
                         env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "Intermediate build ${env.BUILD_RESULTS}......";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                         throw e
                     }
@@ -117,13 +117,13 @@ pipeline{
                         '''
                         env.BUILD_RESULTS="success"
                         sh '''
-                        echo "Intermediate build ${env.BUILD_RESULTS}......";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''                      
                     }
                     catch(e){
                         env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "Intermediate build ${env.BUILD_RESULTS}......";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                         throw e
                     }
