@@ -9,14 +9,15 @@ pipeline{
         // DOCKER_CERT_PATH is automatically picked up by the Docker client
         // Usage: $DOCKER_CERT_PATH or $DOCKER_CERT_PATH_USR or $DOCKER_CERT_PATH_PSW
         DOCKER_CERT_PATH = credentials('PRIVATE_CNTR_REGISTRY')
-        BUILD_RESULTS="failure"
-        GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+        
+
     }
     stages {
         stage('Build Test Images...'){
             steps {
                 script {
                     // Define a some variables
+                    env.BUILD_RESULTS="failure"
                     def cypress_image
                     def cypress_dockerfile
                     
@@ -42,14 +43,16 @@ pipeline{
                         // Push image to private container registry
                         sh '''
                         docker push registry.dellius.app/cypress/custom:v5.4.0;
-                        echo "Intermediate build success......";
-                        export BUILD_RESULTS="success";
+                        '''
+                        env.BUILD_RESULTS="success"
+                        sh '''
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                     }
                     catch(e){
+                        env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "Intermediate build failure......";
-                        export BUILD_RESULTS="failure";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                         throw e
                     }
@@ -74,15 +77,15 @@ pipeline{
                         registry.dellius.app/cypress/custom:v5.4.0  \
                         run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/*";
                         '''
+                        env.BUILD_RESULTS="success"
                         sh '''
-                        echo "Tests passed successfully......";
-                        export BUILD_RESULTS="success";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                     }
                     catch(e){
+                        env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "Intermediate build failure......";
-                        export BUILD_RESULTS="failure";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                         throw e
                     }
@@ -90,11 +93,11 @@ pipeline{
                 } // End of script block
             } // Enc of steps()
         } // End of Testing stage()
-        stage('Check environment'){
+        stage('Check environment'){ // check the status of environment variables
             steps{
                 sh '''
-                echo "Build Results: $BUILD_RESULTS";
-                echo "Working with Branch: $GIT_BRANCH";
+                echo "Build Results: ${BUILD_RESULTS}";
+                echo "Working with Branch: ${GIT_BRANCH}";
                 '''
             }
         }
@@ -105,17 +108,21 @@ pipeline{
             }
             steps('Deploy Webservice to Cloud...'){
                 script{
-                    try{
+                    try{                        
                         sh '''
                         git clone https://github.com/dellius-alexander/responsive_web_design.git;
                         cd responsive_web_design;
                         kubectl apply -f hyfi-k8s-deployment.yaml;
-                        '''                        
+                        '''
+                        env.BUILD_RESULTS="success"
+                        sh '''
+                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        '''                      
                     }
                     catch(e){
+                        env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "Intermediate build failure......";
-                        export BUILD_RESULTS="failure";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                         throw e
                     }
@@ -124,4 +131,12 @@ pipeline{
             } // Enc of steps()            
         } // End of Deploy to Prod stage()
     } // End of Main stages
+    post { // Notifications on failures
+        failure {
+            emailext to: "${env.GIT_AUTHOR_EMAIL}",
+                subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${env.currentBuild.fullDisplayName} : Results -> ${env.currentBuild.currentResult}",
+                body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : #${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
+                recipientProviders: [developers(), requestor()]
+        }
+    }
 } // End of pipeline
