@@ -96,7 +96,6 @@ pipeline{
                 echo "Build Results: ${BUILD_RESULTS}";
                 echo "Working with Branch: ${GIT_BRANCH}";
                 '''
-                
             }
         }
         stage('Deploy Webservice to Prod...'){
