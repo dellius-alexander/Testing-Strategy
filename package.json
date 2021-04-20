@@ -1,1 +1,12 @@
-{}
+{
+    "name": "cypress-test-suite-demo",
+    "description": "Example full e2e test code coverage.",
+    "scripts": {
+        "cypress:open": "cypress open",
+        "cypress:run": "cypress run"
+    },
+    "devDependencies": {
+        "cypress": "^6.8.0"
+    },
+    "license": "MIT"
+}

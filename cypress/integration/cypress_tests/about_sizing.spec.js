@@ -1,6 +1,6 @@
 describe("Some describe", () => {
     before(() => {
-      cy.visit('about.html');
+      cy.visit('https://dellius-alexander.github.io/responsive_web_design/about.html');
     });
 
     describe("Desktop", () => {
