@@ -42,14 +42,15 @@ pipeline{
                         // Push image to private container registry
                         sh '''
                         docker push registry.dellius.app/cypress/custom:v5.4.0;
-                        echo "Intermediate build success......";
-                        BUILD_RESULTS="success";
+                        env.BUILD_RESULTS="success";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        
                         '''
                     }
                     catch(e){
                         sh '''
-                        echo "Intermediate build failure......";
-                        BUILD_RESULTS="failure";
+                        env.BUILD_RESULTS="failure";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                         throw e
                     }
@@ -75,14 +76,14 @@ pipeline{
                         run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/*";
                         '''
                         sh '''
-                        echo "Tests passed successfully......";
-                        BUILD_RESULTS="success";
+                        env.BUILD_RESULTS="success";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                     }
                     catch(e){
                         sh '''
-                        echo "Intermediate build failure......";
-                        BUILD_RESULTS="failure";
+                        env.BUILD_RESULTS="failure";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                         throw e
                     }
@@ -111,13 +112,14 @@ pipeline{
                         git clone https://github.com/dellius-alexander/responsive_web_design.git;
                         cd responsive_web_design;
                         kubectl apply -f hyfi-k8s-deployment.yaml;
-                        BUILD_RESULTS="success";
+                        env.BUILD_RESULTS="success";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''                        
                     }
                     catch(e){
                         sh '''
-                        echo "Intermediate build failure......";
-                        BUILD_RESULTS="failure";
+                        env.BUILD_RESULTS="failure";
+                        echo "Intermediate build ${BUILD_RESULTS}......";
                         '''
                         throw e
                     }
