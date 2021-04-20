@@ -2,6 +2,7 @@
 !cypress/integration/cypress_tests/**
 !jenkins/init_jenkins.sh
 project.env
+cypress_fails/
 # Ignore these files in local dev
 www.Dockerfile
 jenkins.Dockerfile
