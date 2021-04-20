@@ -113,5 +113,4 @@ pipeline{
             } // Enc of steps()            
         } // End of Deploy to Prod stage()
     } // End of Main stages
-}
-//cypress run --project . --headless --browser firefox --spec '/home/cypress/e2e/cypress/integration/*'
+} // End of pipeline
