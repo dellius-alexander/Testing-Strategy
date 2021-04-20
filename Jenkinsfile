@@ -96,8 +96,8 @@ pipeline{
         stage('Check environment'){ // check the status of environment variables
             steps{
                 sh '''
-                echo "Build Results: $BUILD_RESULTS";
-                echo "Working with Branch: ${env.GIT_BRANCH}";
+                echo "Build Results: ${BUILD_RESULTS}";
+                echo "Working with Branch: ${GIT_BRANCH}";
                 '''
                 
             }
@@ -132,11 +132,12 @@ pipeline{
             } // Enc of steps()            
         } // End of Deploy to Prod stage()
     } // End of Main stages
-    post { // Recording tests and artifacts
+    post { // Notifications on failures
         failure {
-            mail to: "${env.GIT_AUTHOR_EMAIL}",
+            emailext to: "${env.GIT_AUTHOR_EMAIL}",
                 subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${env.currentBuild.fullDisplayName} : Results -> ${env.currentBuild.currentResult}",
-                body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : #${env.BUILD_NUMBER}  : REsults URL: ${env.RUN_DISPLAY_URL}"
+                body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : #${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
+                recipientProviders: [developers(), requestor()]
         }
     }
 } // End of pipeline
