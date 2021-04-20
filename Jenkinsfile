@@ -43,14 +43,14 @@ pipeline{
                         sh '''
                         docker push registry.dellius.app/cypress/custom:v5.4.0;
                         env.BUILD_RESULTS="success";
-                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        echo "Intermediate build ${env.BUILD_RESULTS}......";
                         
                         '''
                     }
                     catch(e){
                         sh '''
                         env.BUILD_RESULTS="failure";
-                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        echo "Intermediate build ${env.BUILD_RESULTS}......";
                         '''
                         throw e
                     }
@@ -77,13 +77,13 @@ pipeline{
                         '''
                         sh '''
                         env.BUILD_RESULTS="success";
-                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        echo "Intermediate build ${env.BUILD_RESULTS}......";
                         '''
                     }
                     catch(e){
                         sh '''
                         env.BUILD_RESULTS="failure";
-                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        echo "Intermediate build ${env.BUILD_RESULTS}......";
                         '''
                         throw e
                     }
@@ -113,13 +113,13 @@ pipeline{
                         cd responsive_web_design;
                         kubectl apply -f hyfi-k8s-deployment.yaml;
                         env.BUILD_RESULTS="success";
-                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        echo "Intermediate build ${env.BUILD_RESULTS}......";
                         '''                        
                     }
                     catch(e){
                         sh '''
                         env.BUILD_RESULTS="failure";
-                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        echo "Intermediate build ${env.BUILD_RESULTS}......";
                         '''
                         throw e
                     }
