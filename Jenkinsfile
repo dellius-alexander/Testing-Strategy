@@ -1,13 +1,17 @@
   
 pipeline{
     agent any
-    options {
+    options { // Terminal color tool: # Red RD='\e[31m' # Green GR='\e[32m' # Blue BL='\e[36m' $ Cap NC='\e[0m\n'
         ansiColor('xterm')
     }
     environment { // Define some environment variables
         // DOCKER_CERT_PATH is automatically picked up by the Docker client
         // Usage: $DOCKER_CERT_PATH or $DOCKER_CERT_PATH_USR or $DOCKER_CERT_PATH_PSW
         DOCKER_CERT_PATH = credentials('PRIVATE_CNTR_REGISTRY')
+        RD='\e[31m' // Red
+        GR='\e[32m' // Green
+        BL='\e[36m' // Blue
+        NC='\e[0m'  // CAP
     }
     stages {
         stage('Build Test Images...'){
@@ -41,15 +45,17 @@ pipeline{
                         sh '''
                         docker push registry.dellius.app/cypress/custom:v5.4.0;
                         '''
+                        // capture your success
                         env.BUILD_RESULTS="success"
                         sh '''
-                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        printf "\n${GR}Intermediate build ${BUILD_RESULTS}......${NC}\n";
                         '''
                     }
                     catch(e){
+                        // capture your failures
                         env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        echo "${RD}Intermediate build ${BUILD_RESULTS}......${NC}";
                         '''
                         throw e
                     }
@@ -59,7 +65,7 @@ pipeline{
         } // End of Build Test images stage()
         stage('Testing image cypress/custom:v5.4.0'){ // Testing stage()
             steps('Testing Responsive Web Design Webserver'){
-                script{
+                script{ // Run our newly created test image
                     try{
                         sh '''
                         docker run --cap-add=sys_nice \
@@ -74,15 +80,17 @@ pipeline{
                         registry.dellius.app/cypress/custom:v5.4.0  \
                         run --headless --browser firefox --spec "/home/cypress/e2e/cypress/integration/*";
                         '''
+                        // capture your success
                         env.BUILD_RESULTS="success"
                         sh '''
-                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        printf "\n${GR}Intermediate build ${BUILD_RESULTS}......${NC}\n";
                         '''
                     }
                     catch(e){
+                        // capture your failures
                         env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        echo "${RD}Intermediate build ${BUILD_RESULTS}......${NC}";
                         '''
                         throw e
                     }
@@ -104,22 +112,24 @@ pipeline{
                 environment name: 'BUILD_RESULTS', value: 'success'
             }
             steps('Deploy Webservice to Cloud...'){
-                script{
-                    try{                        
+                script{ // Re-Deploy to Production cloud environment
+                    try{
                         sh '''
                         git clone https://github.com/dellius-alexander/responsive_web_design.git;
                         cd responsive_web_design;
                         kubectl apply -f hyfi-k8s-deployment.yaml;
                         '''
+                        // capture your success
                         env.BUILD_RESULTS="success"
                         sh '''
-                        echo "Intermediate build ${BUILD_RESULTS}......";
-                        '''                      
+                        printf "\n${GR}Intermediate build ${BUILD_RESULTS}......${NC}\n";
+                        '''
                     }
                     catch(e){
+                        // capture your failures
                         env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "Intermediate build ${BUILD_RESULTS}......";
+                        echo "${RD}Intermediate build ${BUILD_RESULTS}......${NC}";
                         '''
                         throw e
                     }
