@@ -55,7 +55,7 @@ pipeline{
                         // capture your failures
                         env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "${RD}Intermediate build ${BUILD_RESULTS}......${NC}";
+                        printf "\n${RD}Intermediate build ${BUILD_RESULTS}......${NC}\n";
                         '''
                         throw e
                     }
@@ -90,7 +90,7 @@ pipeline{
                         // capture your failures
                         env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "${RD}Intermediate build ${BUILD_RESULTS}......${NC}";
+                        printf "\n${RD}Intermediate build ${BUILD_RESULTS}......${NC}\n";
                         '''
                         throw e
                     }
@@ -129,7 +129,7 @@ pipeline{
                         // capture your failures
                         env.BUILD_RESULTS="failure"
                         sh '''
-                        echo "${RD}Intermediate build ${BUILD_RESULTS}......${NC}";
+                        printf "\n${RD}Intermediate build ${BUILD_RESULTS}......${NC}\n";
                         '''
                         throw e
                     }
