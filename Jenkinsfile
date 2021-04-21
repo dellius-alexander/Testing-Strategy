@@ -8,10 +8,10 @@ pipeline{
         // DOCKER_CERT_PATH is automatically picked up by the Docker client
         // Usage: $DOCKER_CERT_PATH or $DOCKER_CERT_PATH_USR or $DOCKER_CERT_PATH_PSW
         DOCKER_CERT_PATH = credentials('PRIVATE_CNTR_REGISTRY')
-        RD='\e[31m' // Red
-        GR='\e[32m' // Green
-        BL='\e[36m' // Blue
-        NC='\e[0m'  // CAP
+        RD='\\e[31m' // Red
+        GR='\\e[32m' // Green
+        BL='\\e[36m' // Blue
+        NC='\\e[0m'  // CAP
     }
     stages {
         stage('Build Test Images...'){
