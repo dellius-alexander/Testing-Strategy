@@ -1,12 +1,32 @@
 # Testing-Strategy
 
-This project demonstrates one way to deploy ``Jenkins`` on a `Kubernetes` single node bare-metal cluster. Jenkins data is persisted externally via NFS share directory to persist system restarts. This pipeline will be used to build, test and deploy applications, webservices/webserver, and so much more. As each iteration of our application is committed to this version control tool, we will test the integrety of the application. If any failures occur, the deployment process will be rolled back, development will be notifed and corrections will be made before the processes is repeated, until all tests have passed. Then then app is deployed to your production environment or server.
+This project demonstrates one way to deploy `Jenkins` on a `Kubernetes` single node bare-metal cluster. Jenkins data is persisted externally via NFS share directory to persist system restarts. This pipeline will be used to build, test and deploy applications, webservices/webserver, and so much more. As each iteration of our application is committed to this version control tool, we will test the integrety of the application. If any failures occur, the deployment process will be rolled back, development will be notifed and corrections will be made before the processes is repeated, until all tests have passed. Then the app is deployed to your production environment or server.
+
+---
+---
+
+## Jenkins Kubernetes Pipeline Topology
+<br/>
+
+### CI/CD: Pipeline Lifecycle Breakdown:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Dev/QA`: makes a commit to SCM<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|__ `SCM Server`: receives the commit and triggers a build event to Jenkins Server<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|__ `Jenkins Pod`: receives the request and initiates a build event on the branch<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|__ `if (branch ==~ '(master|main)') && if ('BUILD_RESULTS' ==~ '(success)'):` Deploy to Prod (Notify Github SCM)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|__ `else`: Do Nothing (Notify Github SCM server of `BUILD_RESULTS`)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ___| _______|
+<br/><br/>
+
+![Jenkins Kubernetes Pipeline Topology](./media/pipeline_topology_6.png)
+
 
 ---
 ---
 ## Testing with Cypress
+<br/>
 We have used `Cypress` to conduct end-to-end testing within an isolated jenkins environment. Upon each commit/push from QA to the repo, the repo will trigger a event to Jenkins to pull both the testing repository and the applicaiton repository, rebuild both images and run a live test on the current stable webservice. Or upon a commit/push from Dev a build event is triggered to test the new code commited to the repo against stable working test.  This also includes regression testing on prior working units. QA will write test scripts/specs that jenkins will employ to test against your application code.  
 <br/>
+
 Upon each iteration Cypress will be rebuilt via [cypress.Dockerfile](./cypress.Dockerfile) and the `Webserver application and test in isolation`.  Once the environment is setup we get a snapshot of our testing environment in the form of a docker image:
 -  ([<Some_Docker_User_Account>/cypress_included:5.4.0](./cypress.Dockerfile)). 
 
@@ -16,10 +36,12 @@ The custom image is now ready to spin up any time we need to run any tests suite
 ---
 
 ## CI/CD Pipeline Build
----
-The pipeline build has been automated using the *[__init_container__.sh](./__init_container__.sh)* script which will be executed inside the Jenkins Pod to kick-off our tests.
 
-You may use various methods to define a jenkins build. For the purpose of this project we emply a shell script to automate our pipeline.
+
+The pipeline build has been automated using the *[Jenkinsfile](./Jenkinsfile)*, which will be executed inside the Jenkins Pod to kick-off the build process.
+
+You may use various methods to define a jenkins build. For the purpose of this project we emply a `Jenkinsfile` to automate our pipeline.
+
 
 ---
 
