@@ -6,16 +6,18 @@ This project demonstrates one way to deploy `Jenkins` on a `Kubernetes` single n
 ---
 
 ## Jenkins Kubernetes Pipeline Topology
-<br/>
+<hr/>
 
 ### CI/CD: Pipeline Lifecycle Breakdown:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Dev/QA`: makes a commit to SCM<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|__ `SCM Server`: receives the commit and triggers a build event to Jenkins Server<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|__ `Jenkins Pod`: receives the request and initiates a build event on the branch<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|__ `if (branch ==~ '(master|main)') && if ('BUILD_RESULTS' ==~ '(success)'):` Deploy to Prod (Notify Github SCM)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|__ `if (branch ==~ '(master|main)') && if ('BUILD_RESULTS' ==~ '(success)'):` Deploy to Prod <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Notify Github SCM)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|__ `else`: Do Nothing (Notify Github SCM server of `BUILD_RESULTS`)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ___| _______|
 <br/><br/>
+<hr/>
 
 ![Jenkins Kubernetes Pipeline Topology](./media/pipeline_topology_6.png)
 
