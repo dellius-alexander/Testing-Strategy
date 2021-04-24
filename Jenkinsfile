@@ -140,10 +140,18 @@ pipeline{
         } // End of Deploy to Prod stage()
     } // End of Main stages
     post { // Notifications on failures
-        failure {
+        success {
+            echo "${env.BUILD_URL} has result success."
             emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : #${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
                 to: "${env.GIT_AUTHOR_EMAIL}",
-                subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${env.currentBuild.fullDisplayName} : Results -> ${env.currentBuild.currentResult}",
+                subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${currentBuild.fullDisplayName} : Results -> ${currentBuild.currentResult}",
+                recipientProviders: [developers(), requestor()]
+            }
+        failure {
+            echo "${env.BUILD_URL} has result failures."
+            emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : #${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
+                to: "${env.GIT_AUTHOR_EMAIL}",
+                subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${currentBuild.fullDisplayName} : Results -> ${currentBuild.currentResult}",
                 recipientProviders: [developers(), requestor()]
         }
     }
