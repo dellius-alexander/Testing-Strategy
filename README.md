@@ -20,10 +20,6 @@ This project demonstrates one way to deploy `Jenkins` on a `Kubernetes` single n
 <hr/>
 
 ![Jenkins Kubernetes Pipeline Topology](./media/pipeline_topology_6.png)
-<<<<<<< HEAD
-=======
-
->>>>>>> be2c9fae1031ee87db070e054c15def28d4684a5
 
 ---
 ---
@@ -31,11 +27,9 @@ This project demonstrates one way to deploy `Jenkins` on a `Kubernetes` single n
 <br/>
 We have used `Cypress` to conduct end-to-end testing within an isolated jenkins environment. Upon each commit/push from QA to the repo, the repo will trigger a event to Jenkins to pull both the testing repository and the applicaiton repository, rebuild both images and run a live test on the current stable webservice. Or upon a commit/push from Dev a build event is triggered to test the new code commited to the repo against stable working test.  This also includes regression testing on prior working units. QA will write test scripts/specs that jenkins will employ to test against your application code.  
 <br/>
-<<<<<<< HEAD
-=======
 
->>>>>>> be2c9fae1031ee87db070e054c15def28d4684a5
 Upon each iteration Cypress will be rebuilt via [cypress.Dockerfile](./cypress.Dockerfile) and the `Webserver application and test in isolation`.  Once the environment is setup we get a snapshot of our testing environment in the form of a docker image:
+
 -  ([<Some_Docker_User_Account>/cypress_included:5.4.0](./cypress.Dockerfile)). 
 
 The custom image is now ready to spin up any time we need to run any tests suite as need.  Each Jenkins testing environment is also equipt with docker and kubernetes support using access credentials.  see [JENKINS_README](./kubernetes/jenkins/JENKINS_READ.md). 
@@ -45,7 +39,6 @@ The custom image is now ready to spin up any time we need to run any tests suite
 
 ## CI/CD Pipeline Build
 
-
 The pipeline build has been automated using the *[Jenkinsfile](./Jenkinsfile)*, which will be executed inside the Jenkins Pod to kick-off the build process.
 
 You may use various methods to define a jenkins build. For the purpose of this project we emply a `Jenkinsfile` to automate our pipeline.
@@ -54,6 +47,7 @@ You may use various methods to define a jenkins build. For the purpose of this p
 ---
 
 ### Build Stages:
+
 <br/>
 
 **This process has been automated for ease of use upon script execution:**
@@ -216,6 +210,7 @@ pipeline{
 
 ---
 ### <a id="demo-video">See Demo Video</a>
+
 .... <!-- post content -->
 
 [![Jenkins](media/screenshot_contact_sizing.png)](https://www.youtube.com/embed/jFOrcgQPZ1k "Jenkins")
