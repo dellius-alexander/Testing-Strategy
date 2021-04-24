@@ -141,15 +141,27 @@ pipeline{
     } // End of Main stages
     post { // Notifications on failures
         success {
-            echo "${env.BUILD_URL} has result success."
-            emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : #${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
+            printf "${GR}\nJob Name: ${env.JOB_NAME} \n \
+             Build Number: ${env.BUILD_NUMBER} \n \
+             Job URL: ${env.JOB_URL} \n \
+             Git Branch: ${env.GIT_BRANCH} \n \
+             Git Commit Author: ${env.GIT_AUTHOR_NAME} \n \
+             Job Results: ${currentBuild.currentResult}\n${NC}"
+
+            emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
                 to: "${env.GIT_AUTHOR_EMAIL}",
                 subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${currentBuild.fullDisplayName} : Results -> ${currentBuild.currentResult}",
                 recipientProviders: [developers(), requestor()]
             }
         failure {
-            echo "${env.BUILD_URL} has result failures."
-            emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : #${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
+            printf "${GR}\nJob Name: ${env.JOB_NAME} \n \
+            Build Number: ${env.BUILD_NUMBER} \n \
+            Job URL: ${env.JOB_URL} \n \
+            Git Branch: ${env.GIT_BRANCH} \n \
+            Git Commit Author: ${env.GIT_AUTHOR_NAME} \n \
+            Job Results: ${currentBuild.currentResult}\n${NC}"
+            
+            emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
                 to: "${env.GIT_AUTHOR_EMAIL}",
                 subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${currentBuild.fullDisplayName} : Results -> ${currentBuild.currentResult}",
                 recipientProviders: [developers(), requestor()]
