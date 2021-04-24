@@ -107,7 +107,7 @@ pipeline{
             }
         }
         stage('Deploy Webservice to Prod...'){
-            when {
+            when {  // Only Deploy the main or master branch
                 branch 'main' || 'master'
                 environment name: 'BUILD_RESULTS', value: 'success'
             }
