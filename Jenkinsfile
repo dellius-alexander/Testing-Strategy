@@ -104,6 +104,7 @@ pipeline{
                 echo "Build Results: ${BUILD_RESULTS}";
                 echo "Working with Branch: ${GIT_BRANCH}";
                 '''
+                
             }
         }
         stage('Deploy Webservice to Prod...'){
@@ -143,18 +144,14 @@ pipeline{
         } // End of Deploy to Prod stage()
     } // End of Main stages
     post { // Notifications on failures
-        success {\
-            script {
-                sh '''
-                printf "\n${GR}Job Name: ${JOB_NAME} \n \
-                Build Number: ${BUILD_NUMBER} \n \
-                Job URL: ${JOB_URL} \n \
-                Git Branch: ${GIT_BRANCH} \n \
-                Git Commit Author: ${GIT_AUTHOR_NAME} \n \
-                Job Results: ${BUILD_RESULTS}\n \
-                ${NC}"
-                '''
-            }
+        success {
+            printf "\n${GR}Job Name: ${JOB_NAME} ${NC}\n"
+            printf "${GR}Build Number: ${BUILD_NUMBER} ${NC}\n"
+            printf "${GR}Job URL: ${JOB_URL} ${NC}\n"
+            printf "${GR}Git Branch: ${GIT_BRANCH} ${NC}\n"
+            printf "${GR}Git Commit Author: ${GIT_AUTHOR_NAME} ${NC}\n"
+            printf "${GR}Job Results: ${BUILD_RESULTS} ${NC}\n"
+
             
 
             // emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
@@ -163,17 +160,12 @@ pipeline{
             //     recipientProviders: [developers(), requestor()]
             }
         failure {
-            script {
-                sh '''
-                printf "\n${GR}Job Name: ${JOB_NAME} \n \
-                Build Number: ${BUILD_NUMBER} \n \
-                Job URL: ${JOB_URL} \n \
-                Git Branch: ${GIT_BRANCH} \n \
-                Git Commit Author: ${GIT_AUTHOR_NAME} \n \
-                Job Results: ${BUILD_RESULTS}\n \
-                ${NC}"
-                '''
-            }
+            printf "\n${GR}Job Name: ${JOB_NAME} ${NC}\n"
+            printf "${GR}Build Number: ${BUILD_NUMBER} ${NC}\n"
+            printf "${GR}Job URL: ${JOB_URL} ${NC}\n"
+            printf "${GR}Git Branch: ${GIT_BRANCH} ${NC}\n"
+            printf "${GR}Git Commit Author: ${GIT_AUTHOR_NAME} ${NC}\n"
+            printf "${GR}Job Results: ${BUILD_RESULTS} ${NC}\n"
 
             // emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
             //     to: "${env.GIT_AUTHOR_EMAIL}",
