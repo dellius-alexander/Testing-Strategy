@@ -108,7 +108,10 @@ pipeline{
         }
         stage('Deploy Webservice to Prod...'){
             when {  // Only Deploy the main or master branch
-                branch 'main' || 'master'
+                anyOf {
+                    branch 'main'
+                    branch 'master'
+                    }
                 // Only Deploy if all previous test pass successfully
                 environment name: 'BUILD_RESULTS', value: 'success'
             }
