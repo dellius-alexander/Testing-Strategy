@@ -34,13 +34,13 @@ pipeline{
                         cypress_image = docker.build("cypress/custom:${env.BUILD_ID}", "-f ${cypress_dockerfile} .")
                         // Login to private container registry:
                         //   - [ registry.dellius.app ]                  
-                        sh '''
-                        docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
-                        '''
-                        // tag the cypress image to private repository
                         // sh '''
-                        // docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
+                        // docker login -u $DOCKER_CERT_PATH_USR -p $DOCKER_CERT_PATH_PSW registry.dellius.app;
                         // '''
+                        // tag the cypress image to private repository
+                        sh '''
+                        docker tag cypress/custom:${BUILD_ID} registry.dellius.app/cypress/custom:v5.4.0;
+                        '''
                         // Push image to private container registry
                         sh '''
                         docker push registry.dellius.app/cypress/custom:v5.4.0;
