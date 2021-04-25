@@ -148,10 +148,10 @@ pipeline{
              Git Commit Author: ${env.GIT_AUTHOR_NAME} \n \
              Job Results: ${currentBuild.currentResult}\n${NC}"
 
-            emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
-                to: "${env.GIT_AUTHOR_EMAIL}",
-                subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${currentBuild.fullDisplayName} : Results -> ${currentBuild.currentResult}",
-                recipientProviders: [developers(), requestor()]
+            // emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
+            //     to: "${env.GIT_AUTHOR_EMAIL}",
+            //     subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${currentBuild.fullDisplayName} : Results -> ${currentBuild.currentResult}",
+            //     recipientProviders: [developers(), requestor()]
             }
         failure {
             printf "${GR}\nJob Name: ${env.JOB_NAME} \n \
@@ -160,11 +160,11 @@ pipeline{
             Git Branch: ${env.GIT_BRANCH} \n \
             Git Commit Author: ${env.GIT_AUTHOR_NAME} \n \
             Job Results: ${currentBuild.currentResult}\n${NC}"
-            
-            emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
-                to: "${env.GIT_AUTHOR_EMAIL}",
-                subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${currentBuild.fullDisplayName} : Results -> ${currentBuild.currentResult}",
-                recipientProviders: [developers(), requestor()]
+
+            // emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
+            //     to: "${env.GIT_AUTHOR_EMAIL}",
+            //     subject: "Failed Pipeline Job -> ${env.JOB_NAME} : ${currentBuild.fullDisplayName} : Results -> ${currentBuild.currentResult}",
+            //     recipientProviders: [developers(), requestor()]
         }
     }
 } // End of pipeline
