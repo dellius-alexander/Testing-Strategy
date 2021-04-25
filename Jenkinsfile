@@ -149,7 +149,7 @@ pipeline{
              Job URL: ${JOB_URL} \n \
              Git Branch: ${GIT_BRANCH} \n \
              Git Commit Author: ${GIT_AUTHOR_NAME} \n \
-             Job Results: ${currentBuild.currentResult}\n${NC}"
+             Job Results: ${BUILD_RESULTS}\n${NC}"
 
             // emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
             //     to: "${env.GIT_AUTHOR_EMAIL}",
@@ -162,7 +162,7 @@ pipeline{
             Job URL: ${JOB_URL} \n \
             Git Branch: ${GIT_BRANCH} \n \
             Git Commit Author: ${GIT_AUTHOR_NAME} \n \
-            Job Results: ${currentBuild.currentResult}\n${NC}"
+            Job Results: ${BUILD_RESULTS}\n${NC}"
 
             // emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
             //     to: "${env.GIT_AUTHOR_EMAIL}",
