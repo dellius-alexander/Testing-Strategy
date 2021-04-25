@@ -145,6 +145,7 @@ pipeline{
     post { // Notifications on failures
         success {\
             script {
+                sh '''
                 printf "\n${GR}Job Name: ${JOB_NAME} \n \
                 Build Number: ${BUILD_NUMBER} \n \
                 Job URL: ${JOB_URL} \n \
@@ -152,6 +153,7 @@ pipeline{
                 Git Commit Author: ${GIT_AUTHOR_NAME} \n \
                 Job Results: ${BUILD_RESULTS}\n \
                 ${NC}"
+                '''
             }
             
 
@@ -162,6 +164,7 @@ pipeline{
             }
         failure {
             script {
+                sh '''
                 printf "\n${GR}Job Name: ${JOB_NAME} \n \
                 Build Number: ${BUILD_NUMBER} \n \
                 Job URL: ${JOB_URL} \n \
@@ -169,6 +172,7 @@ pipeline{
                 Git Commit Author: ${GIT_AUTHOR_NAME} \n \
                 Job Results: ${BUILD_RESULTS}\n \
                 ${NC}"
+                '''
             }
 
             // emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
