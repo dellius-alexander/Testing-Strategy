@@ -144,11 +144,11 @@ pipeline{
     } // End of Main stages
     post { // Notifications on failures
         success {
-            printf "${GR}\nJob Name: ${env.JOB_NAME} \n \
-             Build Number: ${env.BUILD_NUMBER} \n \
-             Job URL: ${env.JOB_URL} \n \
-             Git Branch: ${env.GIT_BRANCH} \n \
-             Git Commit Author: ${env.GIT_AUTHOR_NAME} \n \
+            printf "${GR}\nJob Name: ${JOB_NAME} \n \
+             Build Number: ${BUILD_NUMBER} \n \
+             Job URL: ${JOB_URL} \n \
+             Git Branch: ${GIT_BRANCH} \n \
+             Git Commit Author: ${GIT_AUTHOR_NAME} \n \
              Job Results: ${currentBuild.currentResult}\n${NC}"
 
             // emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
@@ -157,11 +157,11 @@ pipeline{
             //     recipientProviders: [developers(), requestor()]
             }
         failure {
-            printf "${GR}\nJob Name: ${env.JOB_NAME} \n \
-            Build Number: ${env.BUILD_NUMBER} \n \
-            Job URL: ${env.JOB_URL} \n \
-            Git Branch: ${env.GIT_BRANCH} \n \
-            Git Commit Author: ${env.GIT_AUTHOR_NAME} \n \
+            printf "${GR}\nJob Name: ${JOB_NAME} \n \
+            Build Number: ${BUILD_NUMBER} \n \
+            Job URL: ${JOB_URL} \n \
+            Git Branch: ${GIT_BRANCH} \n \
+            Git Commit Author: ${GIT_AUTHOR_NAME} \n \
             Job Results: ${currentBuild.currentResult}\n${NC}"
 
             // emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
