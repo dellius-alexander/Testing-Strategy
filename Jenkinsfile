@@ -145,12 +145,17 @@ pipeline{
     } // End of Main stages
     post { // Notifications on failures
         success {
-            printf "\n${GR}Job Name: ${JOB_NAME} ${NC}\n"
-            printf "${GR}Build Number: ${BUILD_NUMBER} ${NC}\n"
-            printf "${GR}Job URL: ${JOB_URL} ${NC}\n"
-            printf "${GR}Git Branch: ${GIT_BRANCH} ${NC}\n"
-            printf "${GR}Git Commit Author: ${GIT_AUTHOR_NAME} ${NC}\n"
-            printf "${GR}Job Results: ${BUILD_RESULTS} ${NC}\n"
+            script{
+                sh '''
+                printf "\n${GR}Job Name: ${JOB_NAME} ${NC}\n"
+                printf "${GR}Build Number: ${BUILD_NUMBER} ${NC}\n"
+                printf "${GR}Job URL: ${JOB_URL} ${NC}\n"
+                printf "${GR}Git Branch: ${GIT_BRANCH} ${NC}\n"
+                printf "${GR}Git Commit Author: ${GIT_AUTHOR_NAME} ${NC}\n"
+                printf "${GR}Job Results: ${BUILD_RESULTS} ${NC}\n"
+                '''
+            }
+
 
             
 
@@ -160,12 +165,17 @@ pipeline{
             //     recipientProviders: [developers(), requestor()]
             }
         failure {
-            printf "\n${GR}Job Name: ${JOB_NAME} ${NC}\n"
-            printf "${GR}Build Number: ${BUILD_NUMBER} ${NC}\n"
-            printf "${GR}Job URL: ${JOB_URL} ${NC}\n"
-            printf "${GR}Git Branch: ${GIT_BRANCH} ${NC}\n"
-            printf "${GR}Git Commit Author: ${GIT_AUTHOR_NAME} ${NC}\n"
-            printf "${GR}Job Results: ${BUILD_RESULTS} ${NC}\n"
+            script{
+                sh '''
+                printf "\n${RD}Job Name: ${JOB_NAME} ${NC}\n"
+                printf "${RD}Build Number: ${BUILD_NUMBER} ${NC}\n"
+                printf "${RD}Job URL: ${JOB_URL} ${NC}\n"
+                printf "${RD}Git Branch: ${GIT_BRANCH} ${NC}\n"
+                printf "${RD}Git Commit Author: ${GIT_AUTHOR_NAME} ${NC}\n"
+                printf "${RD}Job Results: ${BUILD_RESULTS} ${NC}\n"
+                '''
+            }
+
 
             // emailext body: "${env.GIT_AUTHOR_NAME}, Job Name: ${env.JOB_NAME} : ${env.BUILD_NUMBER}  : Results URL: ${env.RUN_DISPLAY_URL}",
             //     to: "${env.GIT_AUTHOR_EMAIL}",
